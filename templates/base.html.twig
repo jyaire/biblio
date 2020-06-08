@@ -3,10 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Bibliothèque{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('build/app.scss') }}">
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div class="container-fluid">
+            {% block body %}{% endblock %}
+            {% block javascripts %}{% endblock %}
+        </div>
     </body>
 </html>
