@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Bibliothèque{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
     </head>
+
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div class="container-fluid">
+
+            {% block header %}
+            <div class="row bg-dark text-white p-3">
+                <div class="col">Bibliothèque</div>
+                <div class="col text-right">Administration</div>
+            </div>
+            {% endblock %}
+
+            {% block body %}{% endblock %}
+
+            {% block javascripts %}
+                {{ encore_entry_script_tags('app') }}{% endblock %}
+        </div>
     </body>
 </html>
