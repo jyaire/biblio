@@ -17,9 +17,6 @@ class BiblioBookType extends AbstractType
             ->add('editeur')
             ->add('dewey')
             ->add('prix')
-            ->add('dateAjout')
-            ->add('isDispo')
-            ->add('dateIndispo')
         ;
     }
 

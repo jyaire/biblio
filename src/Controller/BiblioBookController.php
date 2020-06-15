@@ -5,18 +5,18 @@ namespace App\Controller;
 use App\Entity\BiblioBook;
 use App\Form\BiblioBookType;
 use App\Repository\BiblioBookRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/biblio/book")
- */
 class BiblioBookController extends AbstractController
 {
     /**
-     * @Route("/", name="biblio_book_index", methods={"GET"})
+     * @Route("/admin/book/", name="biblio_book_index", methods={"GET"})
+     * @param BiblioBookRepository $biblioBookRepository
+     * @return Response
      */
     public function index(BiblioBookRepository $biblioBookRepository): Response
     {
@@ -26,7 +26,9 @@ class BiblioBookController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="biblio_book_new", methods={"GET","POST"})
+     * @Route("/admin/book/new", name="biblio_book_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -36,6 +38,10 @@ class BiblioBookController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $biblioBook
+                ->setDateAjout(new DateTime())
+                ->setIsDispo(1);
+
             $entityManager->persist($biblioBook);
             $entityManager->flush();
 
@@ -49,7 +55,7 @@ class BiblioBookController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="biblio_book_show", methods={"GET"})
+     * @Route("/biblio/book/{id}", name="biblio_book_show", methods={"GET"})
      */
     public function show(BiblioBook $biblioBook): Response
     {
@@ -59,7 +65,7 @@ class BiblioBookController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="biblio_book_edit", methods={"GET","POST"})
+     * @Route("/biblio/book/{id}/edit", name="biblio_book_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, BiblioBook $biblioBook): Response
     {
@@ -79,7 +85,7 @@ class BiblioBookController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="biblio_book_delete", methods={"DELETE"})
+     * @Route("/biblio/book/{id}", name="biblio_book_delete", methods={"DELETE"})
      */
     public function delete(Request $request, BiblioBook $biblioBook): Response
     {

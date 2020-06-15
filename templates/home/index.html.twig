@@ -5,12 +5,16 @@
 {% block body %}
     <main class="home">
         <div class="row justify-content-center">
-            <h1 class="col-12 text-center">Choisis ce que tu veux faire</h1>
-            <div class="col-12 col-md-6 text-center mb-2">
-                <img src="{{ asset('images/emprunt.gif') }}">
+            <h3 class="col-12 text-center p-3">Choisis ce que tu veux faire</h3>
+            <div class="col-12 col-md-5 text-right mb-2">
+                <a href="" title="Emprunt">
+                    <img class="home-button" src="{{ asset('images/emprunt.gif') }}">
+                </a>
             </div>
-            <div class="col-12 col-md-6 text-center">
-                <img src="{{ asset('images/retour.gif') }}">
+            <div class="col-12 col-md-5 text-left">
+                <a href="" title="Retour">
+                    <img class="home-button" src="{{ asset('images/retour.gif') }}">
+                </a>
             </div>
         </div>
     </main>
