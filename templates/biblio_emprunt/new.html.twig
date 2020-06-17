@@ -7,7 +7,7 @@
 
     <p>Choisis ton nom :</p>
     {% for eleve in eleves %}
-        {{ eleve.firstname }}
+        <a href="{{ path('biblio_emprunt', {'eleve':eleve}) }}" alt="{{ eleve.prenom }}">{{ eleve.prenom }}</a>
     {% endfor %}
 
     {{ include('biblio_emprunt/_form.html.twig') }}

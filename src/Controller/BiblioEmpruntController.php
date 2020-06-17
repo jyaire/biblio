@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\BiblioEmprunt;
+use App\Entity\BiblioUser;
 use App\Form\BiblioEmpruntType;
 use App\Repository\BiblioEmpruntRepository;
 use App\Repository\BiblioUserRepository;
@@ -26,12 +27,42 @@ class BiblioEmpruntController extends AbstractController
     }
 
     /**
-     * @Route("/emprunt/", name="biblio_emprunt_new", methods={"GET","POST"})
+     * @Route("/emprunt/", name="biblio_emprunt", methods={"GET","POST"})
+     * @param Request $request
+     * @param BiblioUserRepository $eleves
+     * @param BiblioUser $eleve
+     * @return Response
+     */
+    public function emprunt(Request $request, BiblioUserRepository $eleves, ?BiblioUser $eleve): Response
+    {
+        $eleves = $eleves->findBy(['section'=>'CM2']);
+        $biblioEmprunt = new BiblioEmprunt();
+        $form = $this->createForm(BiblioEmpruntType::class, $biblioEmprunt);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $biblioEmprunt->setEleve($eleve);
+            $entityManager->persist($biblioEmprunt);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('biblio_emprunt_index');
+        }
+
+        return $this->render('biblio_emprunt/new.html.twig', [
+            'biblio_emprunt' => $biblioEmprunt,
+            'eleves' => $eleves,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/retour/", name="biblio_retour", methods={"GET","POST"})
      * @param Request $request
      * @param BiblioUserRepository $eleves
      * @return Response
      */
-    public function new(Request $request, BiblioUserRepository $eleves): Response
+    public function retour(Request $request, BiblioUserRepository $eleves): Response
     {
         $eleves = $eleves->findAll();
         $biblioEmprunt = new BiblioEmprunt();
