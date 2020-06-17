@@ -5,6 +5,11 @@
 {% block body %}
     <h1>Emprunt d'un livre</h1>
 
+    <p>Choisis ton nom :</p>
+    {% for eleve in eleves %}
+        {{ eleve.firstname }}
+    {% endfor %}
+
     {{ include('biblio_emprunt/_form.html.twig') }}
 
     <a href="{{ path('biblio_emprunt_index') }}">back to list</a>

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit BiblioUser{% endblock %}
+
+{% block body %}
+    <h1>Edit BiblioUser</h1>
+
+    {{ include('biblio_user/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('biblio_user_index') }}">back to list</a>
+
+    {{ include('biblio_user/_delete_form.html.twig') }}
+{% endblock %}

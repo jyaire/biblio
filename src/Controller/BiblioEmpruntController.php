@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\BiblioEmprunt;
 use App\Form\BiblioEmpruntType;
 use App\Repository\BiblioEmpruntRepository;
+use App\Repository\BiblioUserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,11 +28,12 @@ class BiblioEmpruntController extends AbstractController
     /**
      * @Route("/emprunt/", name="biblio_emprunt_new", methods={"GET","POST"})
      * @param Request $request
+     * @param BiblioUserRepository $eleves
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, BiblioUserRepository $eleves): Response
     {
-
+        $eleves = $eleves->findAll();
         $biblioEmprunt = new BiblioEmprunt();
         $form = $this->createForm(BiblioEmpruntType::class, $biblioEmprunt);
         $form->handleRequest($request);
@@ -47,6 +49,7 @@ class BiblioEmpruntController extends AbstractController
 
         return $this->render('biblio_emprunt/new.html.twig', [
             'biblio_emprunt' => $biblioEmprunt,
+            'eleves' => $eleves,
             'form' => $form->createView(),
         ]);
     }
