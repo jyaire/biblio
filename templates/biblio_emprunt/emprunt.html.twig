@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Emprunt d'un livre{% endblock %}
+
+{% block body %}
+    <h1>Emprunt d'un livre</h1>
+
+    {% if user is not null %}
+        <p>Bonjour {{ user.prenom }} {{ user.nom }}</p>
+        <p>Entre le numéro du livre</p>
+        {{ include('biblio_emprunt/_form.html.twig') }}
+    {% else %}
+        {% if section is null %}
+            <p>Choisis ta classe :</p>
+            {% for classe in classes %}
+                <a href="{{ path('biblio_emprunt', {'section':classe.section}) }}" alt="{{ classe.section }}">{{ classe.section }}</a>
+            {% endfor %}
+        {% else %}
+            <p>Choisis ton nom :</p>
+            {% for eleve in eleves %}
+                <a href="{{ path('biblio_emprunt', {'user':eleve}) }}" alt="{{ eleve.prenom }}">{{ eleve.prenom }}</a>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

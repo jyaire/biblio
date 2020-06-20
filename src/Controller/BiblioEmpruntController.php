@@ -8,6 +8,8 @@ use App\Form\BiblioEmpruntType;
 use App\Repository\BiblioEmpruntRepository;
 use App\Repository\BiblioUserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,31 +29,49 @@ class BiblioEmpruntController extends AbstractController
     }
 
     /**
-     * @Route("/emprunt/", name="biblio_emprunt", methods={"GET","POST"})
+     * @Route("/emprunt/{user}", name="biblio_emprunt", methods={"GET","POST"}, defaults={"user":null})
      * @param Request $request
-     * @param BiblioUserRepository $eleves
-     * @param BiblioUser $eleve
+     * @param BiblioUserRepository $elevesRepo
+     * @param BiblioUser|null $user
      * @return Response
      */
-    public function emprunt(Request $request, BiblioUserRepository $eleves, ?BiblioUser $eleve): Response
+    public function emprunt(Request $request, BiblioUserRepository $elevesRepo, ?BiblioUser $user): Response
     {
-        $eleves = $eleves->findBy(['section'=>'CM2']);
         $biblioEmprunt = new BiblioEmprunt();
-        $form = $this->createForm(BiblioEmpruntType::class, $biblioEmprunt);
-        $form->handleRequest($request);
+        $biblioEmprunt->setEleve($user);
+        $form = $this->createFormBuilder($biblioEmprunt)
+            ->add('id', IntegerType::class)
+            ->getForm();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $idLivre = $form->get('id')->getData();
+            dd($idLivre);
             $entityManager = $this->getDoctrine()->getManager();
-            $biblioEmprunt->setEleve($eleve);
             $entityManager->persist($biblioEmprunt);
             $entityManager->flush();
 
             return $this->redirectToRoute('biblio_emprunt_index');
         }
 
-        return $this->render('biblio_emprunt/new.html.twig', [
-            'biblio_emprunt' => $biblioEmprunt,
+        // si une section est choisie, on affiche les élèves
+
+        if(isset($_GET['section'])) {
+            $section = $_GET['section'];
+            $classes = null;
+            $eleves = $elevesRepo->findBy(['section'=>$section]);
+        }
+        else{
+            // sinon on cherche les sections de l'école
+            $section = null;
+            $classes = $elevesRepo->findClassDistinct();
+            $eleves = null;
+        }
+
+        return $this->render('biblio_emprunt/emprunt.html.twig', [
             'eleves' => $eleves,
+            'classes' => $classes,
+            'section' => $section,
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }
