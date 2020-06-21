@@ -3,24 +3,40 @@
 {% block title %}Emprunt d'un livre{% endblock %}
 
 {% block body %}
-    <h1>Emprunt d'un livre</h1>
-
+<div class="row p-5">
     {% if user is not null %}
+    <div class="col text-center">
         <p>Bonjour {{ user.prenom }} {{ user.nom }}</p>
-        <p>Entre le numéro du livre</p>
+        <h3>Entre le numéro du livre</h3>
         {{ include('biblio_emprunt/_form.html.twig') }}
+    </div>
     {% else %}
-        {% if section is null %}
-            <p>Choisis ta classe :</p>
+        <div class="col text-center">
+            <h3>Choisis ta classe :</h3>
             {% for classe in classes %}
-                <a href="{{ path('biblio_emprunt', {'section':classe.section}) }}" alt="{{ classe.section }}">{{ classe.section }}</a>
+                {% if classe.section != "adulte" %}
+                <a href="{{ path('biblio_emprunt', {'section':classe.section}) }}"
+                   alt="{{ classe.section }}"
+                   class="ok-button">{{ classe.section }}</a>
+                {% endif %}
             {% endfor %}
-        {% else %}
-            <p>Choisis ton nom :</p>
+        {% if section is not null %}
+            <h3>Choisis ton nom :</h3>
             {% for eleve in eleves %}
-                <a href="{{ path('biblio_emprunt', {'user':eleve}) }}" alt="{{ eleve.prenom }}">{{ eleve.prenom }}</a>
+                {% if eleve.isCaution == 1 %}
+                    {% set class = "ok-button" %}
+                    <a href="{{ path('biblio_emprunt', {'user':eleve.id}) }}"
+                       alt="{{ eleve.prenom }}"
+                       class="{{ class }}">{{ eleve.prenom }}</a>
+                {% else %}
+                    {% set class = "wait-button" %}
+                    <span alt="{{ eleve.prenom }}"
+                       class="{{ class }}">{{ eleve.prenom }}</span>
+                {% endif %}
+                <br>
             {% endfor %}
+        </div>
         {% endif %}
     {% endif %}
-
+</div>
 {% endblock %}

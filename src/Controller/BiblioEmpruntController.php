@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\BiblioEmprunt;
 use App\Entity\BiblioUser;
 use App\Form\BiblioEmpruntType;
+use App\Repository\BiblioBookRepository;
 use App\Repository\BiblioEmpruntRepository;
 use App\Repository\BiblioUserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,32 +33,48 @@ class BiblioEmpruntController extends AbstractController
      * @Route("/emprunt/{user}", name="biblio_emprunt", methods={"GET","POST"}, defaults={"user":null})
      * @param Request $request
      * @param BiblioUserRepository $elevesRepo
+     * @param BiblioBookRepository $bookRepo
      * @param BiblioUser|null $user
      * @return Response
      */
-    public function emprunt(Request $request, BiblioUserRepository $elevesRepo, ?BiblioUser $user): Response
+    public function emprunt(Request $request,
+                            BiblioUserRepository $elevesRepo,
+                            BiblioBookRepository $bookRepo,
+                            ?BiblioUser $user): Response
     {
-        $biblioEmprunt = new BiblioEmprunt();
-        $biblioEmprunt->setEleve($user);
-        $form = $this->createFormBuilder($biblioEmprunt)
-            ->add('id', IntegerType::class)
+        $form = $this->createFormBuilder()
+            ->add('book', IntegerType::class)
+            ->add('send', SubmitType::class)
             ->getForm();
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $idLivre = $form->get('id')->getData();
-            dd($idLivre);
+            $biblioEmprunt = new BiblioEmprunt();
+            $biblioEmprunt->setEleve($user);
+            $livre = $bookRepo->findOneBy(['id'=>$form->get('book')->getData()]);
+            if ($livre == null) {
+                $this->addFlash('danger', "Livre inconnu");
+                return $this->redirectToRoute('biblio_emprunt', [
+                    'user'=> $user->getId(),
+                ]);
+            }
+            $biblioEmprunt
+                ->setLivre($livre)
+                ->setIsEmprunt(1)
+                ->setDateEmprunt(new \DateTime());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($biblioEmprunt);
             $entityManager->flush();
 
-            return $this->redirectToRoute('biblio_emprunt_index');
+            $this->addFlash('success', "Tu peux garder ce livre 15 jours !");
+            return $this->redirectToRoute('home_index');
         }
 
         // si une section est choisie, on affiche les élèves
 
         if(isset($_GET['section'])) {
             $section = $_GET['section'];
-            $classes = null;
+            $classes = $elevesRepo->findClassDistinct();
             $eleves = $elevesRepo->findBy(['section'=>$section]);
         }
         else{
