@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Retour d'un livre{% endblock %}
+
+{% block body %}
+<div class="row p-5">
+        <div class="col text-center">
+                <h3>Entre le numéro du livre</h3>
+                {{ include('biblio_emprunt/_form.html.twig') }}
+        </div>
+</div>
+{% endblock %}

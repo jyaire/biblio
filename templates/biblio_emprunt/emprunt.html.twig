@@ -6,9 +6,8 @@
 <div class="row p-5">
     {{ include('biblio_emprunt/_classes.html.twig') }}
     {% if user is not null %}
-    <div class="col text-center">
-        <p>Bonjour {{ user.prenom }} {{ user.nom }}</p>
-        <h3>Entre le numéro du livre</h3>
+    <div class="col text-center p-3">
+        <h3>{{ user.prenom }}, entre le numéro de ton livre</h3>
         {{ include('biblio_emprunt/_form.html.twig') }}
     </div>
     {% else %}

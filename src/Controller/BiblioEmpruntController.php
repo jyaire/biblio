@@ -117,28 +117,53 @@ class BiblioEmpruntController extends AbstractController
     /**
      * @Route("/retour/", name="biblio_retour", methods={"GET","POST"})
      * @param Request $request
-     * @param BiblioUserRepository $eleves
+     * @param BiblioEmpruntRepository $empruntsRepo
+     * @param BiblioBookRepository $bookRepo
      * @return Response
      */
-    public function retour(Request $request, BiblioUserRepository $eleves): Response
+    public function retour(Request $request, BiblioEmpruntRepository $empruntsRepo, BiblioBookRepository $bookRepo): Response
     {
-        $eleves = $eleves->findAll();
-        $biblioEmprunt = new BiblioEmprunt();
-        $form = $this->createForm(BiblioEmpruntType::class, $biblioEmprunt);
+        $form = $this->createFormBuilder()
+            ->add('book', IntegerType::class)
+            ->add('send', SubmitType::class)
+            ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $livre = $bookRepo->findOneBy(['id'=>$form->get('book')->getData()]);
+            // si le livre n'existe pas, rediriger vers le formulaire
+            if ($livre == null) {
+                $this->addFlash('danger', "Livre inconnu");
+                return $this->redirectToRoute('biblio_retour');
+            }
+            $biblioEmprunt = $empruntsRepo->findOneBy([
+                'livre'=>$livre,
+                'isEmprunt'=>1,
+                ]);
+
+            // si le livre n'est pas emprunté, rediriger vers le formulaire
+            if ($biblioEmprunt==null) {
+                $this->addFlash('danger', "Ce livre n'est pas considéré comme emprunté");
+                return $this->redirectToRoute('biblio_retour');
+            }
+            // on récupère l'usser qui a emprunté le livre
+            $user = $biblioEmprunt->getEleve();
+            // et on met à jour la BDD pour le retour
+            $biblioEmprunt
+                ->setIsEmprunt(0)
+                ->setDateRetour(new \DateTime());
+            $user->setEmprunts($user->getEmprunts()-1);
             $entityManager = $this->getDoctrine()->getManager();
-            $biblioEmprunt->setEleve($eleve);
+            $entityManager->persist($user);
             $entityManager->persist($biblioEmprunt);
             $entityManager->flush();
 
-            return $this->redirectToRoute('biblio_emprunt_index');
+            $prenom = $user->getPrenom();
+            $this->addFlash('success', "$prenom, merci de ranger le livre à sa place !");
+            return $this->redirectToRoute('home_index');
         }
 
-        return $this->render('biblio_emprunt/new.html.twig', [
-            'biblio_emprunt' => $biblioEmprunt,
-            'eleves' => $eleves,
+        return $this->render('biblio_emprunt/retour.html.twig', [
             'form' => $form->createView(),
         ]);
     }
