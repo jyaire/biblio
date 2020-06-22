@@ -16,15 +16,21 @@
         <div class="col-12 pt-3 text-center">
             <h3>Qui es-tu ?</h3>
             {% for eleve in eleves %}
-                {% if eleve.isCaution == 1 %}
+                {% if eleve.isCaution == 1 and eleve.emprunts < limit %}
                     {% set class = "ok-button" %}
                     <p><a href="{{ path('biblio_emprunt', {'user':eleve.id}) }}"
                        alt="{{ eleve.prenom }} {{ eleve.nom }}"
                        class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</a></p>
                 {% else %}
-                    {% set class = "wait-button" %}
-                    <p><span alt="{{ eleve.prenom }} {{ eleve.nom }}"
-                       class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</span></p>
+                    {% if eleve.isCaution == 0 %}
+                        {% set class = "nope-button" %}
+                        <p><span alt="{{ eleve.prenom }} {{ eleve.nom }}"
+                                 class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</span></p>
+                    {% else %}
+                        {% set class = "wait-button" %}
+                        <p><span alt="{{ eleve.prenom }} {{ eleve.nom }}"
+                           class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</span></p>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </div>

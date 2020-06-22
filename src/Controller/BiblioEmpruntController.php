@@ -52,8 +52,22 @@ class BiblioEmpruntController extends AbstractController
             $biblioEmprunt = new BiblioEmprunt();
             $biblioEmprunt->setEleve($user);
             $livre = $bookRepo->findOneBy(['id'=>$form->get('book')->getData()]);
+            // si le livre n'existe pas, rediriger vers le formulaire
             if ($livre == null) {
                 $this->addFlash('danger', "Livre inconnu");
+                return $this->redirectToRoute('biblio_emprunt', [
+                    'user'=> $user->getId(),
+                ]);
+            }
+            // si le livre est déjà emprunté, rediriger vers le formulaire
+            $indispo=0;
+            foreach($livre->getBiblioEmprunts() as $emprunt) {
+                if($emprunt->getIsEmprunt()==1) {
+                    $indispo=1;
+                }
+            }
+            if ($indispo==1) {
+                $this->addFlash('danger', "Livre déjà emprunté");
                 return $this->redirectToRoute('biblio_emprunt', [
                     'user'=> $user->getId(),
                 ]);
@@ -62,7 +76,9 @@ class BiblioEmpruntController extends AbstractController
                 ->setLivre($livre)
                 ->setIsEmprunt(1)
                 ->setDateEmprunt(new \DateTime());
+            $user->setEmprunts($user->getEmprunts()+1);
             $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
             $entityManager->persist($biblioEmprunt);
             $entityManager->flush();
 
@@ -84,11 +100,16 @@ class BiblioEmpruntController extends AbstractController
             $eleves = null;
         }
 
+        // Nombre maximal de livres empruntables
+        // TODO à mettre dans une option de l'admin
+        $limit = 1;
+
         return $this->render('biblio_emprunt/emprunt.html.twig', [
             'eleves' => $eleves,
             'classes' => $classes,
             'section' => $section,
             'user' => $user,
+            'limit' => $limit,
             'form' => $form->createView(),
         ]);
     }
