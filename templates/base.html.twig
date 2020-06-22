@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
     <head>
         <meta charset="UTF-8">
@@ -15,10 +15,31 @@
 
             {% block header %}
             <div class="row bg-dark text-white p-3">
-                <div class="col">Bibliothèque</div>
-                <div class="col text-right">Administration</div>
+                <div class="col font-weight-bold">
+                    <a href="{{ path('home_index') }}" title="Accueil">Bibliothèque</a>
+                </div>
+                <div class="col text-right">
+                    <a href="{{ path('admin_index') }}" title="Administration">Administration</a>
+                </div>
             </div>
             {% endblock %}
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success text-center mt-1 alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('danger') %}
+                <div class="alert alert-danger text-center mt-1 alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
 
             {% block body %}{% endblock %}
 

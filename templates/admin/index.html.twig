@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration de la bilbiothèque{% endblock %}
+
+{% block body %}
+    <main class="home">
+        <div class="row justify-content-center">
+            <h3 class="col-12 text-center p-3">Administration</h3>
+            <div class="col-8">
+                <a href="{{ path('biblio_book_new') }}" title="Ajouter un livre" class="primary-button">
+                    Ajouter un livre
+                </a>
+            </div>
+            <div class="col-8">
+                <a href="{{ path('biblio_book_index') }}" title="Liste des livres" class="primary-button">
+                    Liste des livres
+                </a>
+            </div>
+        </div>
+    </main>
+{% endblock %}

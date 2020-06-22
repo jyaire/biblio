@@ -2,28 +2,31 @@
 
 namespace App\Form;
 
-use App\Entity\BiblioBook;
+use App\Entity\BiblioUser;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BiblioBookType extends AbstractType
+class BiblioUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('titre')
-            ->add('auteur')
-            ->add('editeur')
-            ->add('dewey')
-            ->add('prix')
+            ->add('username')
+            ->add('password')
+            ->add('nom')
+            ->add('prenom')
+            ->add('dateNaissance')
+            ->add('sexe')
+            ->add('section')
+            ->add('isCaution')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => BiblioBook::class,
+            'data_class' => BiblioUser::class,
         ]);
     }
 }

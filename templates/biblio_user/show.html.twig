@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BiblioUser{% endblock %}
+
+{% block body %}
+    <h1>BiblioUser</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ biblio_user.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ biblio_user.username }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ biblio_user.roles ? biblio_user.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ biblio_user.password }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ biblio_user.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ biblio_user.prenom }}</td>
+            </tr>
+            <tr>
+                <th>DateNaissance</th>
+                <td>{{ biblio_user.dateNaissance ? biblio_user.dateNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Sexe</th>
+                <td>{{ biblio_user.sexe }}</td>
+            </tr>
+            <tr>
+                <th>Section</th>
+                <td>{{ biblio_user.section }}</td>
+            </tr>
+            <tr>
+                <th>IsCaution</th>
+                <td>{{ biblio_user.isCaution ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('biblio_user_index') }}">back to list</a>
+
+    <a href="{{ path('biblio_user_edit', {'id': biblio_user.id}) }}">edit</a>
+
+    {{ include('biblio_user/_delete_form.html.twig') }}
+{% endblock %}

@@ -6,10 +6,12 @@ use App\Repository\BiblioUserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=BiblioUserRepository::class)
+ * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
  */
 class BiblioUser implements UserInterface
 {
@@ -70,6 +72,11 @@ class BiblioUser implements UserInterface
      * @ORM\OneToMany(targetEntity=BiblioEmprunt::class, mappedBy="eleve")
      */
     private $biblioEmprunts;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $emprunts;
 
     public function __construct()
     {
@@ -248,6 +255,18 @@ class BiblioUser implements UserInterface
                 $biblioEmprunt->setEleve(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEmprunts(): ?int
+    {
+        return $this->emprunts;
+    }
+
+    public function setEmprunts(int $emprunts): self
+    {
+        $this->emprunts = $emprunts;
 
         return $this;
     }

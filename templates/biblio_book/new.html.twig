@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New BiblioBook{% endblock %}
+{% block title %}Nouveau livre{% endblock %}
 
 {% block body %}
-    <h1>Create new BiblioBook</h1>
-
-    {{ include('biblio_book/_form.html.twig') }}
-
-    <a href="{{ path('biblio_book_index') }}">back to list</a>
+<div class="form-group row justify-content-center">
+    <div class="col-8">
+        <h1 class="text-center">Ajouter un nouveau livre</h1>
+        {{ include('biblio_book/_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

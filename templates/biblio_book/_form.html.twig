@@ -1,4 +1,14 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+Titre du livre
+{{ form_widget(form.titre, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Titre du livre (obligatoire)'}}) }}
+Auteur
+{{ form_widget(form.auteur, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Auteur'}}) }}
+Editeur
+{{ form_widget(form.editeur, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Editeur'}}) }}
+Côte Dewey
+{{ form_widget(form.dewey, {'attr': {'class': 'form-control mb-3', 'placeholder': 'De 100 à 900'}}) }}
+Prix
+{{ form_widget(form.prix, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Chiffres uniquement'}}) }}
+
+    <button class="primary-button">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}
