@@ -73,6 +73,11 @@ class BiblioUser implements UserInterface
      */
     private $biblioEmprunts;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $emprunts;
+
     public function __construct()
     {
         $this->biblioEmprunts = new ArrayCollection();
@@ -250,6 +255,18 @@ class BiblioUser implements UserInterface
                 $biblioEmprunt->setEleve(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEmprunts(): ?int
+    {
+        return $this->emprunts;
+    }
+
+    public function setEmprunts(int $emprunts): self
+    {
+        $this->emprunts = $emprunts;
 
         return $this;
     }
