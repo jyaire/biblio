@@ -1,27 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BiblioEmprunt index{% endblock %}
+{% block title %}Livres empruntés{% endblock %}
 
 {% block body %}
-    <h1>BiblioEmprunt index</h1>
+    <h3>Livres actuellement sortis</h3>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>IsEmprunt</th>
+                <th>Titre</th>
+                <th>Eleve</th>
                 <th>DateEmprunt</th>
-                <th>DateRetour</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for biblio_emprunt in biblio_emprunts %}
             <tr>
-                <td>{{ biblio_emprunt.id }}</td>
-                <td>{{ biblio_emprunt.isEmprunt ? 'Yes' : 'No' }}</td>
-                <td>{{ biblio_emprunt.dateEmprunt ? biblio_emprunt.dateEmprunt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ biblio_emprunt.dateRetour ? biblio_emprunt.dateRetour|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ biblio_emprunt.livre.titre }}</td>
+                <td>{{ biblio_emprunt.eleve.prenom }} {{ biblio_emprunt.eleve.nom }} ({{ biblio_emprunt.eleve.section }})</td>
+                <td>{{ biblio_emprunt.dateEmprunt ? biblio_emprunt.dateEmprunt|date('d/m/Y à H:i') : '' }}</td>
                 <td>
                     <a href="{{ path('biblio_emprunt_show', {'id': biblio_emprunt.id}) }}">show</a>
                     <a href="{{ path('biblio_emprunt_edit', {'id': biblio_emprunt.id}) }}">edit</a>
@@ -34,6 +32,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('biblio_emprunt_new') }}">Create new</a>
 {% endblock %}

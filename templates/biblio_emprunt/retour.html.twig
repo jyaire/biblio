@@ -3,10 +3,11 @@
 {% block title %}Retour d'un livre{% endblock %}
 
 {% block body %}
-<div class="row p-5">
-        <div class="col text-center">
+<div class="row p-5 justify-content-center">
+        <div class="col-6 text-center">
                 <h3>Entre le numéro du livre</h3>
                 {{ include('biblio_emprunt/_form.html.twig') }}
         </div>
 </div>
+        {{ include('footer.html.twig') }}
 {% endblock %}

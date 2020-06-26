@@ -43,8 +43,12 @@ class BiblioEmpruntController extends AbstractController
                             ?BiblioUser $user): Response
     {
         $form = $this->createFormBuilder()
-            ->add('book', IntegerType::class)
-            ->add('send', SubmitType::class)
+            ->add('book', IntegerType::class, [
+                'attr'            => ['class' => 'form-control'],
+            ])
+            ->add('Emprunter', SubmitType::class, [
+                'attr'            => ['class' => 'primary-button'],
+            ])
             ->getForm();
         $form->handleRequest($request);
 
@@ -124,8 +128,12 @@ class BiblioEmpruntController extends AbstractController
     public function retour(Request $request, BiblioEmpruntRepository $empruntsRepo, BiblioBookRepository $bookRepo): Response
     {
         $form = $this->createFormBuilder()
-            ->add('book', IntegerType::class)
-            ->add('send', SubmitType::class)
+            ->add('book', IntegerType::class, [
+                'attr'            => ['class' => 'form-control'],
+            ])
+            ->add('Rendre', SubmitType::class, [
+                'attr'            => ['class' => 'primary-button'],
+            ])
             ->getForm();
         $form->handleRequest($request);
 

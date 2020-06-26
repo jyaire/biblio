@@ -3,10 +3,10 @@
 {% block title %}Emprunt d'un livre{% endblock %}
 
 {% block body %}
-<div class="row p-5">
+<div class="row p-5 justify-content-center">
     {{ include('biblio_emprunt/_classes.html.twig') }}
     {% if user is not null %}
-    <div class="col text-center p-3">
+    <div class="col-6 text-center p-3">
         <h3>{{ user.prenom }}, entre le numéro de ton livre</h3>
         {{ include('biblio_emprunt/_form.html.twig') }}
     </div>
@@ -18,7 +18,7 @@
                 {% if eleve.isCaution == 1 and eleve.emprunts < limit %}
                     {% set class = "ok-button" %}
                     <p><a href="{{ path('biblio_emprunt', {'user':eleve.id}) }}"
-                       alt="{{ eleve.prenom }} {{ eleve.nom }}"
+                       alt="{{ eleve.prenom }} {{ eleve.nom  }}"
                        class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</a></p>
                 {% else %}
                     {% if eleve.isCaution == 0 %}
@@ -36,4 +36,5 @@
         {% endif %}
     {% endif %}
 </div>
+    {{ include('footer.html.twig') }}
 {% endblock %}
