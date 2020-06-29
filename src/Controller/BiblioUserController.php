@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class BiblioUserController extends AbstractController
 {
@@ -23,15 +24,28 @@ class BiblioUserController extends AbstractController
     }
 
     /**
-     * @Route("/biblio/user/new", name="biblio_user_new", methods={"GET","POST"})
+     * @Route("/admin/user/new", name="biblio_user_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $biblioUser = new BiblioUser();
         $form = $this->createForm(BiblioUserType::class, $biblioUser);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $username = $biblioUser->getDateNaissance()->format('Y').' '.$biblioUser->getNom().' '.$biblioUser->getPrenom();
+            $biblioUser
+                ->setPassword($passwordEncoder->encodePassword(
+                    $biblioUser,
+                    $form->get('password')->getData()
+                )
+            )
+                ->setRoles(["ROLE_USER"])
+                ->setUsername($username)
+                ->setEmprunts(0);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($biblioUser);
             $entityManager->flush();
