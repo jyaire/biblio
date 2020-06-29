@@ -78,6 +78,11 @@ class BiblioUser implements UserInterface
      */
     private $emprunts;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $ine;
+
     public function __construct()
     {
         $this->biblioEmprunts = new ArrayCollection();
@@ -267,6 +272,18 @@ class BiblioUser implements UserInterface
     public function setEmprunts(int $emprunts): self
     {
         $this->emprunts = $emprunts;
+
+        return $this;
+    }
+
+    public function getIne(): ?string
+    {
+        return $this->ine;
+    }
+
+    public function setIne(?string $ine): self
+    {
+        $this->ine = $ine;
 
         return $this;
     }

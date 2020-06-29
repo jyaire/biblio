@@ -28,6 +28,7 @@ class BiblioUserType extends AbstractType
                 ])
             ->add('section')
             ->add('isCaution')
+            ->add('ine')
         ;
     }
 
