@@ -110,7 +110,7 @@ a:hover {
     box-shadow: 1px 1px 8px #555;
 }
 
-.form-control {
+.form-control-small {
     border: solid grey 2px;
     margin: auto;
     width: 200px;
@@ -118,7 +118,7 @@ a:hover {
     text-align: center;
     color: black;
 }
-.form-control:focus {
+.form-control-small:focus {
     font-size: 1.7rem;
     text-align: center;
     color: black;
