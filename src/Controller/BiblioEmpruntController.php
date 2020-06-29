@@ -25,7 +25,7 @@ class BiblioEmpruntController extends AbstractController
     public function index(BiblioEmpruntRepository $biblioEmpruntRepository): Response
     {
         return $this->render('biblio_emprunt/index.html.twig', [
-            'biblio_emprunts' => $biblioEmpruntRepository->findAll(),
+            'biblio_emprunts' => $biblioEmpruntRepository->findBy(['isEmprunt'=>1]),
         ]);
     }
 

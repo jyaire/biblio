@@ -1,54 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BiblioBook{% endblock %}
+{% block title %}{{ biblio_book.titre }}{% endblock %}
 
 {% block body %}
-    <h1>BiblioBook</h1>
+    <h3 class="text-left">{{ biblio_book.titre }}</h3>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ biblio_book.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ biblio_book.titre }}</td>
-            </tr>
-            <tr>
-                <th>Auteur</th>
-                <td>{{ biblio_book.auteur }}</td>
-            </tr>
-            <tr>
-                <th>Editeur</th>
-                <td>{{ biblio_book.editeur }}</td>
-            </tr>
-            <tr>
-                <th>Dewey</th>
-                <td>{{ biblio_book.dewey }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ biblio_book.prix }}</td>
-            </tr>
-            <tr>
-                <th>DateAjout</th>
-                <td>{{ biblio_book.dateAjout ? biblio_book.dateAjout|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>IsDispo</th>
-                <td>{{ biblio_book.isDispo ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>DateIndispo</th>
-                <td>{{ biblio_book.dateIndispo ? biblio_book.dateIndispo|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col text-left">
+            <p>Livre n°{{ biblio_book.id }} - Titre : {{ biblio_book.titre }} - Auteur : {{ biblio_book.auteur }} - Editeur : {{ biblio_book.editeur }}</p>
+            <p>Côte Dewey : {{ biblio_book.dewey }} - Prix : {{ biblio_book.prix }} € - Ajouté à la bibliothèque le {{ biblio_book.dateAjout ? biblio_book.dateAjout|date('d/m/Y') : '' }}<br>
+            <p>{% if biblio_book.isDispo == 1 %}
+                Disponible aux emprunts
+            {% else %}
+                Retiré de la circulation depuis le {{ biblio_book.dateIndispo ? biblio_book.dateIndispo|date('d-m-Y') : '' }}
+            {% endif %} -
+                <a href="{{ path('biblio_book_edit', {'id': biblio_book.id}) }}">Modifier ce livre</a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col p-3 text-left">
+        <h4>Historique des emprunts</h4>
+        {% for emprunt in biblio_book.biblioEmprunts  %}
+            <p class="text-left">
+                Par {{ emprunt.eleve.prenom }} {{ emprunt.eleve.nom }} ({{ emprunt.eleve.section }})
+                le {{ emprunt.dateEmprunt | date('d/m/Y') }},
+                {% if emprunt.isEmprunt == 1 %}
+                    encore emprunté
+                {% else %}
+                    rendu le {{ emprunt.dateRetour | date('d/m/Y') }}
+                {% endif %}
+            </p>
+        {% endfor %}
+        </div>
+    </div>
 
-    <a href="{{ path('biblio_book_index') }}">back to list</a>
+    <a href="{{ path('biblio_book_index') }}">Tous les livres</a>
 
-    <a href="{{ path('biblio_book_edit', {'id': biblio_book.id}) }}">edit</a>
-
-    {{ include('biblio_book/_delete_form.html.twig') }}
 {% endblock %}
