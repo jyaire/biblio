@@ -10,13 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/biblio/user")
- */
 class BiblioUserController extends AbstractController
 {
     /**
-     * @Route("/", name="biblio_user_index", methods={"GET"})
+     * @Route("/admin/user/", name="biblio_user_index", methods={"GET"})
      */
     public function index(BiblioUserRepository $biblioUserRepository): Response
     {
@@ -26,7 +23,7 @@ class BiblioUserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="biblio_user_new", methods={"GET","POST"})
+     * @Route("/biblio/user/new", name="biblio_user_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,7 +46,7 @@ class BiblioUserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="biblio_user_show", methods={"GET"})
+     * @Route("/biblio/user/{id}", name="biblio_user_show", methods={"GET"})
      */
     public function show(BiblioUser $biblioUser): Response
     {
@@ -59,7 +56,7 @@ class BiblioUserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="biblio_user_edit", methods={"GET","POST"})
+     * @Route("/biblio/user/{id}/edit", name="biblio_user_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, BiblioUser $biblioUser): Response
     {
@@ -79,7 +76,7 @@ class BiblioUserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="biblio_user_delete", methods={"DELETE"})
+     * @Route("/biblio/user/{id}", name="biblio_user_delete", methods={"DELETE"})
      */
     public function delete(Request $request, BiblioUser $biblioUser): Response
     {

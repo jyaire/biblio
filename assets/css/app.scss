@@ -1,5 +1,6 @@
 // customize some Bootstrap variables
 $primary-color: orange;
+$secondary-color: violet;
 
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
@@ -59,6 +60,10 @@ a:hover {
 
 .primary-button{
     @include button($primary-color)
+}
+
+.secondary-button{
+    @include button($secondary-color)
 }
 
 .wait-button {

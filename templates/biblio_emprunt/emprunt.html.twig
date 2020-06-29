@@ -28,7 +28,7 @@
                     {% else %}
                         {% set class = "wait-button" %}
                         <p><span alt="{{ eleve.prenom }} {{ eleve.nom }}"
-                           class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</span></p>
+                           class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</span> - livre emprunté</p>
                     {% endif %}
                 {% endif %}
             {% endfor %}

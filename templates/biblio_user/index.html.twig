@@ -1,51 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BiblioUser index{% endblock %}
+{% block title %}Eleves{% endblock %}
 
 {% block body %}
-    <h1>BiblioUser index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Username</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>DateNaissance</th>
-                <th>Sexe</th>
-                <th>Section</th>
-                <th>IsCaution</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <h1>Liste des élèves</h1>
+    <ul class="text-left">
         {% for biblio_user in biblio_users %}
-            <tr>
-                <td>{{ biblio_user.id }}</td>
-                <td>{{ biblio_user.username }}</td>
-                <td>{{ biblio_user.roles ? biblio_user.roles|json_encode : '' }}</td>
-                <td>{{ biblio_user.password }}</td>
-                <td>{{ biblio_user.nom }}</td>
-                <td>{{ biblio_user.prenom }}</td>
-                <td>{{ biblio_user.dateNaissance ? biblio_user.dateNaissance|date('Y-m-d') : '' }}</td>
-                <td>{{ biblio_user.sexe }}</td>
-                <td>{{ biblio_user.section }}</td>
-                <td>{{ biblio_user.isCaution ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('biblio_user_show', {'id': biblio_user.id}) }}">show</a>
-                    <a href="{{ path('biblio_user_edit', {'id': biblio_user.id}) }}">edit</a>
-                </td>
-            </tr>
+            <li>
+                <p><a href="{{ path('biblio_user_show', {'id': biblio_user.id}) }}">
+                        {{ biblio_user.nom }} {{ biblio_user.prenom }}
+                        </a>
+                    ({{ biblio_user.section }}) - Elève n°{{ biblio_user.id }} -
+                    Né(e) le {{ biblio_user.dateNaissance ? biblio_user.dateNaissance|date('d/m/Y') : '' }} -
+                    Peut emprunter : {{ biblio_user.isCaution ? 'Oui' : 'Non' }} -
+                    <a href="{{ path('biblio_user_edit', {'id': biblio_user.id}) }}">Modifier</a>
+                </p>
+                <hr>
+            </li>
         {% else %}
             <tr>
-                <td colspan="11">no records found</td>
+                <td colspan="11">Aucun élève</td>
             </tr>
         {% endfor %}
-        </tbody>
-    </table>
+    </ul>
 
-    <a href="{{ path('biblio_user_new') }}">Create new</a>
+    <a href="{{ path('biblio_user_new') }}">Ajouter un élève</a>
 {% endblock %}
