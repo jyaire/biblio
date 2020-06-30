@@ -22,8 +22,8 @@ class BiblioUserType extends AbstractType
             ])
             ->add('sexe', ChoiceType::class, [
                 'choices' =>  [
-                    'Féminin' => 'f',
-                    'Masculin' => 'm',
+                    'Féminin' => 'F',
+                    'Masculin' => 'M',
                 ],
                 ])
             ->add('section')

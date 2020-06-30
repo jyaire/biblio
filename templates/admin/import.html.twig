@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'élèves{% endblock %}
+
+{% block body %}
+
+<div class="row justify-content-center">
+    <div class="col">
+        <h3>Charger des élèves depuis Onde</h3>
+        <div class="text-center">
+            {{ form_start(form) }}
+            <p>Merci de charger un fichier au format CSV pour mettre à jour les élèves actuels</p>
+            <p>{{ form_widget(form.eleves) }}</p>
+            {{ form_row(form.submit, {'label': 'Envoyer', 'attr': {'class': 'primary-button'}}) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
