@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des cautions{% endblock %}
+
+{% block body %}
+    <h3>Gestion des cautions</h3>
+    <ul class="text-left">
+        {% for biblio_user in biblio_users %}
+            <li>
+                <p><a href="{{ path('biblio_user_show', {'id': biblio_user.id}) }}">
+                        {{ biblio_user.nom }} {{ biblio_user.prenom }}
+                    </a>
+                    ({{ biblio_user.section }}) -
+                    Peut emprunter :
+                    {% if biblio_user.isCaution == 1 %}
+                        oui
+                    {% else %}
+                        non
+                    {% endif %}
+                </p>
+            </li>
+        {% else %}
+            <tr>
+                <td colspan="11">Aucun élève</td>
+            </tr>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ path('biblio_user_new') }}">Ajouter un élève</a>
+{% endblock %}

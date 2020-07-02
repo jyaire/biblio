@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\BiblioUser;
+use App\Form\CautionType;
 use App\Form\ImportType;
 use App\Repository\BiblioUserRepository;
 use DateTime;
@@ -119,6 +120,43 @@ class AdminController extends AbstractController
         return $this->render('admin/import.html.twig', [
             'form' => $form->createView(),
             'eleves' => $eleves,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/caution/", name="biblio_user_caution", methods={"GET"})
+     * @param BiblioUserRepository $biblioUserRepository
+     * @param Request $request
+     * @return void
+     */
+    public function caution(BiblioUserRepository $biblioUserRepository, Request $request): Response
+    {
+
+        // create form
+        $form = $this->createForm(CautionType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $i = 0; // TODO faire une boucle
+            // and add pupils
+            $eleve = new BiblioUser(); // TODO trouver le bon élève via un champ hidden ?
+            $eleve
+                ->setIsCaution(0) // TODO changer la caution en fonction de la coche
+            ;
+            $em->persist($eleve);
+            $i++;
+
+            // send confirmations
+            $this->addFlash(
+                'success',
+                "$i cautions modifiées"
+            );
+            $em->flush();
+        }
+
+        return $this->render('admin/caution.html.twig', [
+            'biblio_users' => $biblioUserRepository->findBy([], ['nom' => 'ASC']),
         ]);
     }
 }
