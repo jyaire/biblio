@@ -67,16 +67,20 @@ class AdminController extends AbstractController
                 $newFilename
             );
 
-            // drop lines already in table
+            // drop lines already in table but admin
             $oldEleves = $eleves->findAll();
             foreach ($oldEleves as $line) {
-                $em->remove($line);
+                if($line->getUsername()!='admin') {
+                    $em->remove($line);
+                }
             }
+            $em->flush();
 
             // open the file to put data in DB
             $csv = fopen($destination . $newFilename, 'r');
             $i = 0;
             while (($data = fgetcsv($csv, 0, ';')) !== FALSE) {
+                $data = array_map("utf8_encode", $data);
                 // pass the first title line
                 if ($i != 0) {
                     // and add pupils
@@ -86,7 +90,7 @@ class AdminController extends AbstractController
                     $eleve
                         ->setUsername($username)
                         ->setRoles(["ROLE_USER"])
-                        ->setPassword('123456')
+                        ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$/EfKPqFLeOhCaUkTVs12VQ$DriNw/FgfkQpgr8J02mFWwL5E8N0fJ4P/vHnpe968tE')
                         ->setNom($data[0])
                         ->setPrenom($data[2])
                         ->setDateNaissance($dateNaissance)
@@ -106,6 +110,7 @@ class AdminController extends AbstractController
                 "$i élèves correctement ajoutés"
             );
             $em->flush();
+            return $this->redirectToRoute('biblio_user_index');
         }
 
         // find all lines in rateCards
