@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\BiblioUser;
-use App\Form\CautionType;
 use App\Form\ImportType;
 use App\Repository\BiblioUserRepository;
 use DateTime;
@@ -124,41 +123,34 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/caution/", name="biblio_user_caution", methods={"GET"})
+     * @Route("/admin/caution/{eleve}", name="biblio_user_caution", defaults={"eleve": null})
      * @param BiblioUserRepository $biblioUserRepository
-     * @param Request $request
-     * @return void
+     * @param BiblioUser|null $eleve
+     * @param EntityManagerInterface $em
+     * @return Response
      */
-    public function caution(BiblioUserRepository $biblioUserRepository, Request $request): Response
+    public function caution(BiblioUserRepository $biblioUserRepository, ?BiblioUser $eleve, EntityManagerInterface $em): Response
     {
-
-        // create form
-        $eleves = $biblioUserRepository->findBy([], ['nom' => 'ASC']);
-        $form = $this->createForm(CautionType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $i = 0; // TODO faire une boucle
-            // and add pupils
-            $eleve = new BiblioUser(); // TODO trouver le bon élève via un champ hidden ?
-            $eleve
-                ->setIsCaution(0) // TODO changer la caution en fonction de la coche
-            ;
+        if(isset($eleve)) {
+            $individu = $eleve->getPrenom().' '.$eleve->getNom();
+            if($eleve->getIsCaution()==0) {
+                $eleve->setIsCaution(1);
+                $message = "$individu peut emprunter";
+            }
+            else {
+                $eleve->setIsCaution(0);
+                $message = "$individu ne peut plus emprunter";
+            }
             $em->persist($eleve);
-            $i++;
-
-            // send confirmations
-            $this->addFlash(
-                'success',
-                "$i cautions modifiées"
-            );
             $em->flush();
+            // send confirmations
+            $this->addFlash('success', $message);
         }
+
+        $eleves = $biblioUserRepository->findBy([], ['nom' => 'ASC']);
 
         return $this->render('admin/caution.html.twig', [
             'biblio_users' => $eleves,
-            'form' => $form->createView(),
         ]);
     }
 }
