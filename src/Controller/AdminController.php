@@ -133,6 +133,7 @@ class AdminController extends AbstractController
     {
 
         // create form
+        $eleves = $biblioUserRepository->findBy([], ['nom' => 'ASC']);
         $form = $this->createForm(CautionType::class);
         $form->handleRequest($request);
 
@@ -156,7 +157,8 @@ class AdminController extends AbstractController
         }
 
         return $this->render('admin/caution.html.twig', [
-            'biblio_users' => $biblioUserRepository->findBy([], ['nom' => 'ASC']),
+            'biblio_users' => $eleves,
+            'form' => $form->createView(),
         ]);
     }
 }
