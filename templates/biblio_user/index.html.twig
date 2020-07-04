@@ -4,6 +4,9 @@
 
 {% block body %}
     <h1>Liste des élèves</h1>
+    <p><a href="{{ path('biblio_user_caution') }}" title="Chèques de caution">
+            Gérer les cautions
+        </a></p>
     <ul class="text-left">
         {% for biblio_user in biblio_users %}
             <li>
@@ -11,8 +14,14 @@
                         {{ biblio_user.nom }} {{ biblio_user.prenom }}
                         </a>
                     ({{ biblio_user.section }}) - Elève n°{{ biblio_user.id }} -
-                    Né(e) le {{ biblio_user.dateNaissance ? biblio_user.dateNaissance|date('d/m/Y') : '' }} -
-                    Peut emprunter : {{ biblio_user.isCaution ? 'Oui' : 'Non' }} -
+                    Né{% if biblio_user.sexe == "F" %}e{% endif %} le
+                    {{ biblio_user.dateNaissance ? biblio_user.dateNaissance|date('d/m/Y') : '' }} -
+                    Peut emprunter :
+                    {% if biblio_user.isCaution == 1 %}
+                        <span class="text-success font-weight-bold">oui</span>
+                    {% else %}
+                        <span class="text-danger font-weight-bold">non</span>
+                    {% endif %} -
                     <a href="{{ path('biblio_user_edit', {'id': biblio_user.id}) }}">Modifier</a>
                 </p>
                 <hr>

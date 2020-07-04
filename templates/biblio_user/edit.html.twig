@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit BiblioUser{% endblock %}
+{% block title %}Modifier un utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Edit BiblioUser</h1>
+    <h1>Modifier les infos d'un élève</h1>
 
-    {{ include('biblio_user/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('biblio_user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('biblio_user_index') }}">back to list</a>
+    <a href="{{ path('biblio_user_index') }}">Tous les élèves</a>
 
-    {{ include('biblio_user/_delete_form.html.twig') }}
 {% endblock %}
