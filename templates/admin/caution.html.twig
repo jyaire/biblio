@@ -4,8 +4,8 @@
 
 {% block body %}
     <h3>Gestion des cautions</h3>
-    <p><a href="{{ path('biblio_user_caution') }}">Accepter tous</a> -
-        <a href="{{ path('biblio_user_caution') }}">Refuser tous</a></p>
+    <p><a href="{{ path('biblio_user_caution', {'eleve': "on"}) }}">Accepter tous</a> -
+        <a href="{{ path('biblio_user_caution', {'eleve': "off"}) }}">Refuser tous</a></p>
     <ul class="text-left">
         {% for biblio_user in biblio_users %}
             <li>
@@ -15,9 +15,11 @@
                     ({{ biblio_user.section }}) -
                     Peut emprunter :
                     {% if biblio_user.isCaution == 1 %}
-                        oui - <a href="{{ path('biblio_user_caution', {'eleve': biblio_user.id}) }}">refuser</a>
+                        <span class="text-success font-weight-bold">oui</span> -
+                    <a href="{{ path('biblio_user_caution', {'eleve': biblio_user.id}) }}">refuser</a>
                     {% else %}
-                        non - <a href="{{ path('biblio_user_caution', {'eleve': biblio_user.id}) }}">accepter</a>
+                        <span class="text-danger font-weight-bold">non</span> -
+                    <a href="{{ path('biblio_user_caution', {'eleve': biblio_user.id}) }}">accepter</a>
                     {% endif %}
                 </p>
             </li>

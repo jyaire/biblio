@@ -123,6 +123,52 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/caution/on", name="biblio_user_caution_on")
+     * @param BiblioUserRepository $biblioUserRepository
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function cautionOn(BiblioUserRepository $biblioUserRepository, EntityManagerInterface $em): Response
+    {
+        $eleves = $biblioUserRepository->findBy([], ['nom' => 'ASC']);
+        foreach ($eleves as $eleve) {
+            $eleve->setIsCaution(1);
+            $em->persist($eleve);
+            $message = "Tous les élèves peuvent emprunter";
+        }
+        $em->flush();
+        // send confirmations
+        $this->addFlash('success', $message);
+
+        return $this->render('admin/caution.html.twig', [
+            'biblio_users' => $eleves,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/caution/off", name="biblio_user_caution_off")
+     * @param BiblioUserRepository $biblioUserRepository
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function cautionOff(BiblioUserRepository $biblioUserRepository, EntityManagerInterface $em): Response
+    {
+        $eleves = $biblioUserRepository->findBy([], ['nom' => 'ASC']);
+        foreach ($eleves as $eleve) {
+            $eleve->setIsCaution(0);
+            $em->persist($eleve);
+            $message = "Aucun élève ne peut emprunter";
+        }
+        $em->flush();
+        // send confirmations
+        $this->addFlash('success', $message);
+
+        return $this->render('admin/caution.html.twig', [
+            'biblio_users' => $eleves,
+        ]);
+    }
+
+    /**
      * @Route("/admin/caution/{eleve}", name="biblio_user_caution", defaults={"eleve": null})
      * @param BiblioUserRepository $biblioUserRepository
      * @param BiblioUser|null $eleve
