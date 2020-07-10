@@ -4,46 +4,62 @@
 
 {% block body %}
     <h1>Tous les livres</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Auteur</th>
-                <th>Editeur</th>
-                <th>Dewey</th>
-                <th>Prix</th>
-                <th>DateAjout</th>
-                <th>IsDispo</th>
-                <th>DateIndispo</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for biblio_book in biblio_books %}
-            <tr>
-                <td>{{ biblio_book.id }}</td>
-                <td>{{ biblio_book.titre }}</td>
-                <td>{{ biblio_book.auteur }}</td>
-                <td>{{ biblio_book.editeur }}</td>
-                <td>{{ biblio_book.dewey }}</td>
-                <td>{{ biblio_book.prix }}</td>
-                <td>{{ biblio_book.dateAjout ? biblio_book.dateAjout|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ biblio_book.isDispo ? 'Yes' : 'No' }}</td>
-                <td>{{ biblio_book.dateIndispo ? biblio_book.dateIndispo|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('biblio_book_show', {'id': biblio_book.id}) }}">show</a>
-                    <a href="{{ path('biblio_book_edit', {'id': biblio_book.id}) }}">edit</a>
-                </td>
-            </tr>
+<div class="row">
+    <div class="col-1">
+        N°
+    </div>
+    <div class="col-8 text-left">
+        Livre
+    </div>
+    <div class="col-3">
+        Action
+    </div>
+    {% for biblio_book in biblio_books %}
+        <div class="col-12">
+            <hr>
+        </div>
+    <div class="col-1">
+        {{ biblio_book.id }}
+    </div>
+    <div class="col-8 text-left">
+        <span class="font-weight-bold">{{ biblio_book.titre }}</span>
+        {% if biblio_book.auteur is not null %}
+            , par {{ biblio_book.auteur }}
+        {% endif %}
+        <br>
+        Ajouté le {{ biblio_book.dateAjout ? biblio_book.dateAjout|date('d/m/Y') : '' }} -
+        {% if biblio_book.isDispo == 1 %}
+            <span class="text-success">En circulation</span>
         {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <span class="text-danger">Retiré</span>
+        {% endif %}
+        <br>
+        {% if biblio_book.editeur is not null %}
+            Editeur : {{ biblio_book.editeur }}
+        {% endif %}
+        {% if biblio_book.dewey is not null %}
+            - Côte : {{ biblio_book.dewey }}
+        {% endif %}
+        {% if biblio_book.prix is not null %}
+            - Prix : {{ biblio_book.prix }} €
+        {% endif %}
+    </div>
+    <div class="col-3">
+        <a href="{{ path('biblio_book_show', {'id': biblio_book.id}) }}">détail</a> -
+        <a href="{{ path('biblio_book_edit', {'id': biblio_book.id}) }}">modifier</a>
+        <br>
+        {% if biblio_book.isDispo == 1 %}
+            retirer
+        {% else %}
+            remettre en circulation
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="col">
+        Aucun livre trouvé
+    </div>
+    {% endfor %}
+</div>
 
-    <a href="{{ path('biblio_book_new') }}">Create new</a>
+    <a href="{{ path('biblio_book_new') }}">Ajouter un livre</a>
 {% endblock %}
