@@ -80,6 +80,9 @@ class BiblioBookController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $message = "Modification réussie";
+            $this->addFlash('success', $message);
+
             return $this->redirectToRoute('biblio_book_index');
         }
 

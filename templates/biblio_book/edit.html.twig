@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit BiblioBook{% endblock %}
+{% block title %}Modifier un livre{% endblock %}
 
 {% block body %}
-    <h1>Edit BiblioBook</h1>
+    <h1>Modifier </h1>
 
-    {{ include('biblio_book/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('biblio_book/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('biblio_book_index') }}">back to list</a>
+    <a href="{{ path('biblio_book_index') }}">Tous les livres</a>
 
     {{ include('biblio_book/_delete_form.html.twig') }}
 {% endblock %}
