@@ -45,6 +45,11 @@ class BiblioBookController extends AbstractController
             $entityManager->persist($biblioBook);
             $entityManager->flush();
 
+            $idBook = $biblioBook->getId();
+            $titleBook = $biblioBook->getTitre();
+            $message = "Le livre \"$titleBook\" a été ajouté. Notez bien son numéro : $idBook";
+            $this->addFlash('success', $message);
+
             return $this->redirectToRoute('biblio_book_index');
         }
 
