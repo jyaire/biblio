@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BiblioBook;
 use App\Entity\BiblioUser;
 use App\Form\ImportType;
 use App\Repository\BiblioUserRepository;
@@ -198,5 +199,32 @@ class AdminController extends AbstractController
         return $this->render('admin/caution.html.twig', [
             'biblio_users' => $eleves,
         ]);
+    }
+
+    /**
+     * @Route("/admin/dispo/{book}", name="biblio_book_dispo")
+     * @param BiblioBook $book
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function dispo(BiblioBook $book, EntityManagerInterface $em): Response
+    {
+        $titre = $book->getTitre();
+            if($book->getIsDispo()==1) {
+                $book
+                    ->setIsDispo(0)
+                    ->setDateIndispo(new DateTime())
+                ;
+                $message = "$titre est retiré de la circulation";
+            } else {
+                $book->setIsDispo(1);
+                $message = "$titre est remis en circulation";
+            }
+            $em->persist($book);
+            $em->flush();
+            // send confirmation
+            $this->addFlash('success', $message);
+
+        return $this->redirectToRoute('biblio_book_index');
     }
 }

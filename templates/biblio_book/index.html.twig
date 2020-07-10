@@ -31,7 +31,7 @@
         {% if biblio_book.isDispo == 1 %}
             <span class="text-success">En circulation</span>
         {% else %}
-            <span class="text-danger">Retiré</span>
+            <span class="text-danger">Retiré le {{ biblio_book.dateIndispo ? biblio_book.dateIndispo|date('d/m/Y') : '' }}</span>
         {% endif %}
         <br>
         {% if biblio_book.editeur is not null %}
@@ -49,9 +49,9 @@
         <a href="{{ path('biblio_book_edit', {'id': biblio_book.id}) }}">modifier</a>
         <br>
         {% if biblio_book.isDispo == 1 %}
-            retirer
+            <a href="{{ path('biblio_book_dispo', {'book': biblio_book.id}) }}">retirer</a>
         {% else %}
-            remettre en circulation
+            <a href="{{ path('biblio_book_dispo', {'book': biblio_book.id}) }}">remettre en circulation</a>
         {% endif %}
     </div>
     {% else %}
