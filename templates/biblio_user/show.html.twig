@@ -24,6 +24,19 @@
         </tbody>
     </table>
 
+    {% for emprunt in biblio_user.biblioEmprunts %}
+        {{ emprunt.livre.titre }},
+        emprunté le {{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('d/m/Y') : '' }}
+        {% if emprunt.isEmprunt == 0 %}
+            , <span class="text-success">rendu le {{ emprunt.dateRetour ? emprunt.dateRetour|date('d/m/Y') : '' }}</span>
+        {% else %}
+            , <span class="text-danger">non rendu</span>
+        {% endif %}
+        <br>
+    {% else %}
+        Aucun emprunt réalisé
+    {% endfor %}
+
     <a href="{{ path('biblio_user_index') }}">Tous les élèves</a>
 
     <a href="{{ path('biblio_user_edit', {'id': biblio_user.id}) }}">Modifier</a>
