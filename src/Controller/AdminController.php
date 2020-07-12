@@ -60,7 +60,7 @@ class AdminController extends AbstractController
                 return $this->redirectToRoute('admin_import');
             }
 
-            // save file on server
+            // rename file
             $originalFilename = pathinfo($elevesFile->getClientOriginalName(), PATHINFO_FILENAME);
             $newFilename = $originalFilename . ".csv";
             $elevesFile->move(
@@ -68,6 +68,7 @@ class AdminController extends AbstractController
                 $newFilename
             );
 
+            /*
             // drop lines already in table but admin
             $oldEleves = $eleves->findAll();
             foreach ($oldEleves as $line) {
@@ -76,39 +77,58 @@ class AdminController extends AbstractController
                 }
             }
             $em->flush();
+           */
 
-            // open the file to put data in DB
+            // open the file to put data in DB and compare with old one
+            $oldPupils = $eleves->findAll();
             $csv = fopen($destination . $newFilename, 'r');
             $i = 0;
+            $iModif = 0;
+            $iAjout = 0;
             while (($data = fgetcsv($csv, 0, ';')) !== FALSE) {
                 $data = array_map("utf8_encode", $data);
                 // pass the first title line
                 if ($i != 0) {
-                    // and add pupils
-                    $eleve = new BiblioUser();
-                    $dateNaissance = DateTime::createFromFormat("d/m/Y", $data[3]);
-                    $username = $dateNaissance->format('Y').' '.$data[0].' '.$data[2];
-                    $eleve
-                        ->setUsername($username)
-                        ->setRoles(["ROLE_USER"])
-                        ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$/EfKPqFLeOhCaUkTVs12VQ$DriNw/FgfkQpgr8J02mFWwL5E8N0fJ4P/vHnpe968tE')
-                        ->setNom($data[0])
-                        ->setPrenom($data[2])
-                        ->setDateNaissance($dateNaissance)
-                        ->setSexe($data[4])
-                        ->setIne($data[5])
-                        ->setSection($data[15])
-                        ->setIsCaution(0)
-                        ->setEmprunts(0)
-                    ;
-                    $em->persist($eleve);
+                    // search if pupil already here
+                    // if yes, add new section, if no update (add or modify)
+                    $ine = $data[5];
+                    $eleve = $eleves->findOneBy(['ine'=> $ine]);
+                    if(isset($eleve)) {
+                        $eleve
+                            ->setSection($data[15])
+                            ->setIsCaution(0)
+                        ;
+                        $em->persist($eleve);
+                        $iModif++;
+                    }
+                    else {
+                        // and add pupils
+                        $eleve = new BiblioUser();
+                        $dateNaissance = DateTime::createFromFormat("d/m/Y", $data[3]);
+                        $username = $dateNaissance->format('Y').' '.$data[0].' '.$data[2];
+                        $eleve
+                            ->setUsername($username)
+                            ->setRoles(["ROLE_USER"])
+                            ->setPassword('$argon2id$v=19$m=65536,t=4,p=1$/EfKPqFLeOhCaUkTVs12VQ$DriNw/FgfkQpgr8J02mFWwL5E8N0fJ4P/vHnpe968tE')
+                            ->setNom($data[0])
+                            ->setPrenom($data[2])
+                            ->setDateNaissance($dateNaissance)
+                            ->setSexe($data[4])
+                            ->setIne($data[5])
+                            ->setSection($data[15])
+                            ->setIsCaution(0)
+                            ->setEmprunts(0)
+                        ;
+                        $em->persist($eleve);
+                        $iAjout++;
+                    }
                 }
             $i++;
             }
             // send confirmations
             $this->addFlash(
                 'success',
-                "$i élèves correctement ajoutés"
+                "$iAjout élèves correctement ajoutés et $iModif modifiés"
             );
             $em->flush();
             return $this->redirectToRoute('biblio_user_index');
