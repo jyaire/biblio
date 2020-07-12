@@ -4,41 +4,44 @@
 
 {% block body %}
     <h3>{{ biblio_user.prenom }} {{ biblio_user.nom }}</h3>
-
-    <p>{{ biblio_user.prenom }} {{ biblio_user.nom }}, né{% if biblio_user.sexe == "F" %}e{% endif %} le
-        {{ biblio_user.dateNaissance ? biblio_user.dateNaissance|date('Y-m-d') : '' }}</p>
-    <p>INE : {{ biblio_user.ine }} - ID n°{{ biblio_user.id }}</p>
-    <p>Username : {{ biblio_user.username }}</p>
-
-
-                <td>{{ biblio_user.sexe }}</td>
-            </tr>
-            <tr>
-                <th>Section</th>
-                <td>{{ biblio_user.section }}</td>
-            </tr>
-            <tr>
-                <th>IsCaution</th>
-                <td>{{ biblio_user.isCaution ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    {% for emprunt in biblio_user.biblioEmprunts %}
-        {{ emprunt.livre.titre }},
-        emprunté le {{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('d/m/Y') : '' }}
-        {% if emprunt.isEmprunt == 0 %}
-            , <span class="text-success">rendu le {{ emprunt.dateRetour ? emprunt.dateRetour|date('d/m/Y') : '' }}</span>
+<div class="row justify-content-center">
+    <div class="col-12 text-left">
+        <p>Section actuelle : {{ biblio_user.section }}<br>
+        Né{% if biblio_user.sexe == "F" %}e{% endif %} le
+        {{ biblio_user.dateNaissance ? biblio_user.dateNaissance|date('d/m/Y') : '' }}</p>
+        <p>INE : {{ biblio_user.ine }} - ID n°{{ biblio_user.id }}<br>
+        Username : {{ biblio_user.username }}</p>
+        Peut emprunter :
+        {% if biblio_user.isCaution == 1 %}
+            <span class="text-success font-weight-bold">oui</span>
         {% else %}
-            , <span class="text-danger">non rendu</span>
+            <span class="text-danger font-weight-bold">non</span>
         {% endif %}
         <br>
-    {% else %}
-        Aucun emprunt réalisé
-    {% endfor %}
+        <a href="{{ path('biblio_user_edit', {'id': biblio_user.id}) }}">Modifier cet élève</a>
+    </div>
+    <div class="col-12 text-left mt-4">
+        <h3>Historique des emprunts</h3>
+        <ul>
 
-    <a href="{{ path('biblio_user_index') }}">Tous les élèves</a>
-
-    <a href="{{ path('biblio_user_edit', {'id': biblio_user.id}) }}">Modifier</a>
+        </ul>
+        {% for emprunt in biblio_user.biblioEmprunts %}
+            <li>
+                {{ emprunt.livre.titre }},
+                emprunté le {{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('d/m/Y') : '' }}
+                {% if emprunt.isEmprunt == 0 %}
+                    , <span class="text-success">rendu le {{ emprunt.dateRetour ? emprunt.dateRetour|date('d/m/Y') : '' }}</span>
+                {% else %}
+                    , <span class="text-danger">non rendu</span>
+                {% endif %}
+            </li>
+        {% else %}
+            Aucun emprunt réalisé
+        {% endfor %}
+    </div>
+    <div class="col-12 mt-4">
+        <a href="{{ path('biblio_user_index') }}">Tous les élèves</a>
+    </div>
+</div>
 
 {% endblock %}
