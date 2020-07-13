@@ -245,6 +245,8 @@ class AdminController extends AbstractController
             // send confirmation
             $this->addFlash('success', $message);
 
-        return $this->redirectToRoute('biblio_book_index');
+        return $this->redirectToRoute('biblio_book_show', [
+            'id' => $book->getId(),
+        ]);
     }
 }

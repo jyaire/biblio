@@ -7,14 +7,16 @@
 
     <div class="row">
         <div class="col text-left">
-            <p>Livre n°{{ biblio_book.id }} - Titre : {{ biblio_book.titre }} - Auteur : {{ biblio_book.auteur }} - Editeur : {{ biblio_book.editeur }}</p>
-            <p>Côte Dewey : {{ biblio_book.dewey }} - Prix : {{ biblio_book.prix }} € - Ajouté à la bibliothèque le {{ biblio_book.dateAjout ? biblio_book.dateAjout|date('d/m/Y') : '' }}<br>
-            <p>{% if biblio_book.isDispo == 1 %}
-                Disponible aux emprunts
+            <p>Livre n°{{ biblio_book.id }}<br>
+                Auteur : {{ biblio_book.auteur }} - Editeur : {{ biblio_book.editeur }}</p>
+            <p>Côte Dewey : {{ biblio_book.dewey }} - Prix : {{ biblio_book.prix }} €<br>
+                Ajouté à la bibliothèque le {{ biblio_book.dateAjout ? biblio_book.dateAjout|date('d/m/Y') : '' }} - {% if biblio_book.isDispo == 1 %}
+                    <span class="text-success">En circulation</span> - <a href="{{ path('biblio_book_dispo', {'book': biblio_book.id}) }}">retirer</a>
             {% else %}
-                Retiré de la circulation depuis le {{ biblio_book.dateIndispo ? biblio_book.dateIndispo|date('d-m-Y') : '' }}
-            {% endif %} -
-                <a href="{{ path('biblio_book_edit', {'id': biblio_book.id}) }}">Modifier ce livre</a></p>
+                <span class="text-danger">Retiré de la circulation depuis le {{ biblio_book.dateIndispo ? biblio_book.dateIndispo|date('d-m-Y') : '' }}</span>
+                    - <a href="{{ path('biblio_book_dispo', {'book': biblio_book.id}) }}">remettre en circulation</a>
+                {% endif %}</p>
+                <p><a href="{{ path('biblio_book_edit', {'id': biblio_book.id}) }}">Modifier ce livre</a></p>
         </div>
     </div>
     <div class="row">
@@ -22,12 +24,12 @@
         <h4>Historique des emprunts</h4>
         {% for emprunt in biblio_book.biblioEmprunts  %}
             <p class="text-left">
-                Par {{ emprunt.eleve.prenom }} {{ emprunt.eleve.nom }} ({{ emprunt.eleve.section }})
+                Emprunté par {{ emprunt.eleve.prenom }} {{ emprunt.eleve.nom }} ({{ emprunt.eleve.section }})
                 le {{ emprunt.dateEmprunt | date('d/m/Y') }},
                 {% if emprunt.isEmprunt == 1 %}
-                    encore emprunté
+                    <span class="text-danger">non rendu</span>
                 {% else %}
-                    rendu le {{ emprunt.dateRetour | date('d/m/Y') }}
+                    <span class="text-success">rendu le {{ emprunt.dateRetour | date('d/m/Y') }}</span>
                 {% endif %}
             </p>
         {% endfor %}
