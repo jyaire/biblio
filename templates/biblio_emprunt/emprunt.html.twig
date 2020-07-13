@@ -28,7 +28,12 @@
                     {% else %}
                         {% set class = "wait-button" %}
                         <p><span alt="{{ eleve.prenom }} {{ eleve.nom }}"
-                           class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</span> - livre emprunté</p>
+                           class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</span><br>
+                            possède
+                            {% for emprunt in eleve.biblioEmprunts %}
+                                "{{ emprunt.livre.titre }}"
+                                (<a href="{{ path('biblio_book_show', {'id': emprunt.livre.id }) }}">n°{{ emprunt.livre.id }}</a>)
+                            {% endfor %}</p>
                     {% endif %}
                 {% endif %}
             {% endfor %}
