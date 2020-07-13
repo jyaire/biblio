@@ -6,6 +6,7 @@ use App\Entity\BiblioBook;
 use App\Form\BiblioBookType;
 use App\Repository\BiblioBookRepository;
 use DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,6 +72,10 @@ class BiblioBookController extends AbstractController
 
     /**
      * @Route("/biblio/book/{id}/edit", name="biblio_book_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param Request $request
+     * @param BiblioBook $biblioBook
+     * @return Response
      */
     public function edit(Request $request, BiblioBook $biblioBook): Response
     {
@@ -94,6 +99,10 @@ class BiblioBookController extends AbstractController
 
     /**
      * @Route("/biblio/book/{id}", name="biblio_book_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
+     * @param Request $request
+     * @param BiblioBook $biblioBook
+     * @return Response
      */
     public function delete(Request $request, BiblioBook $biblioBook): Response
     {
