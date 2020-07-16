@@ -222,6 +222,33 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/sortie/{eleve}", name="biblio_user_sortie", defaults={"eleve": null})
+     * @param BiblioUserRepository $biblioUserRepository
+     * @param BiblioUser|null $eleve
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function sortieEleve(BiblioUserRepository $biblioUserRepository, ?BiblioUser $eleve, EntityManagerInterface $em): Response
+    {
+        if(isset($eleve)) {
+            $individu = $eleve->getPrenom().' '.$eleve->getNom();
+            $eleve->setSection("sorti");
+            if($eleve->getSexe() == "F") {
+                $message = "$individu est retirée de l'école";
+            } else {
+                $message = "$individu est retiré de l'école";
+            }
+
+            $em->persist($eleve);
+            $em->flush();
+            // send confirmations
+            $this->addFlash('success', $message);
+            }
+
+        return $this->redirectToRoute('biblio_user_index');
+    }
+
+    /**
      * @Route("/admin/dispo/{book}", name="biblio_book_dispo")
      * @param BiblioBook $book
      * @param EntityManagerInterface $em

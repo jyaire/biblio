@@ -61,6 +61,8 @@ class BiblioUserController extends AbstractController
 
     /**
      * @Route("/biblio/user/{id}", name="biblio_user_show", methods={"GET"})
+     * @param BiblioUser $biblioUser
+     * @return Response
      */
     public function show(BiblioUser $biblioUser): Response
     {
@@ -71,6 +73,9 @@ class BiblioUserController extends AbstractController
 
     /**
      * @Route("/biblio/user/{id}/edit", name="biblio_user_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param BiblioUser $biblioUser
+     * @return Response
      */
     public function edit(Request $request, BiblioUser $biblioUser): Response
     {
@@ -91,6 +96,9 @@ class BiblioUserController extends AbstractController
 
     /**
      * @Route("/biblio/user/{id}", name="biblio_user_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param BiblioUser $biblioUser
+     * @return Response
      */
     public function delete(Request $request, BiblioUser $biblioUser): Response
     {

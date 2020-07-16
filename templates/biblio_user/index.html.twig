@@ -15,14 +15,15 @@
                         </a>
                     ({{ biblio_user.section }}) - Elève n°{{ biblio_user.id }} -
                     Né{% if biblio_user.sexe == "F" %}e{% endif %} le
-                    {{ biblio_user.dateNaissance ? biblio_user.dateNaissance|date('d/m/Y') : '' }} -
+                    {{ biblio_user.dateNaissance ? biblio_user.dateNaissance|date('d/m/Y') : '' }}<br>
                     Peut emprunter :
                     {% if biblio_user.isCaution == 1 %}
                         <span class="text-success font-weight-bold">oui</span>
                     {% else %}
                         <span class="text-danger font-weight-bold">non</span>
                     {% endif %} -
-                    <a href="{{ path('biblio_user_edit', {'id': biblio_user.id}) }}">Modifier</a>
+                    <a href="{{ path('biblio_user_edit', {'id': biblio_user.id}) }}">Modifier</a> -
+                    <a href="{{ path('biblio_user_sortie', {'eleve': biblio_user.id}) }}">Retirer de l'école</a>
                 </p>
                 <hr>
             </li>
