@@ -19,6 +19,23 @@ class BiblioSectionRepository extends ServiceEntityRepository
         parent::__construct($registry, BiblioSection::class);
     }
 
+    /**
+     * @return BiblioSection[] Returns an array of BiblioSection objects
+     */
+    public function findActiveClassDistinct(){
+        $builder = $this->getEntityManager()->createQueryBuilder();
+        $builder
+            ->select('s.name')
+            ->where('s.name != :val1')
+            ->andWhere('s.name != :val2')
+            ->setParameter('val1', 'adulte')
+            ->setParameter('val2', 'sorti')
+            ->orderBy('s.rang', 'ASC')
+            ->from($this->getClassName(), 's');
+
+        return $builder->getQuery()->getResult();
+    }
+
     // /**
     //  * @return BiblioSection[] Returns an array of BiblioSection objects
     //  */

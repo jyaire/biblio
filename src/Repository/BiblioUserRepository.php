@@ -36,23 +36,6 @@ class BiblioUserRepository extends ServiceEntityRepository implements PasswordUp
         $this->_em->flush();
     }
 
-    /**
-     * @return BiblioUser[] Returns an array of BiblioUser objects
-     */
-     public function findClassDistinct(){
-        $builder = $this->getEntityManager()->createQueryBuilder();
-        $builder
-            ->select('u.section')
-            ->where('u.section != :val1')
-            ->andWhere('u.section != :val2')
-            ->setParameter('val1', 'adulte')
-            ->setParameter('val2', 'sorti')
-            ->from($this->getClassName(), 'u')
-            ->distinct(true);
-
-        return $builder->getQuery()->getResult();
-    }
-
     // methode pour trouver tous les utilisateurs, sauf les adultes et les anciens élèves trié par classe
      /**
       * @return BiblioUser[] Returns an array of BiblioUser objects

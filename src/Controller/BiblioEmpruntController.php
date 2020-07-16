@@ -7,6 +7,7 @@ use App\Entity\BiblioUser;
 use App\Form\BiblioEmpruntType;
 use App\Repository\BiblioBookRepository;
 use App\Repository\BiblioEmpruntRepository;
+use App\Repository\BiblioSectionRepository;
 use App\Repository\BiblioUserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -34,12 +35,14 @@ class BiblioEmpruntController extends AbstractController
      * @param Request $request
      * @param BiblioUserRepository $elevesRepo
      * @param BiblioBookRepository $bookRepo
+     * @param BiblioSectionRepository $sectionRepo
      * @param BiblioUser|null $user
      * @return Response
      */
     public function emprunt(Request $request,
                             BiblioUserRepository $elevesRepo,
                             BiblioBookRepository $bookRepo,
+                            BiblioSectionRepository $sectionRepo,
                             ?BiblioUser $user): Response
     {
         $form = $this->createFormBuilder()
@@ -91,16 +94,14 @@ class BiblioEmpruntController extends AbstractController
         }
 
         // si une section est choisie, on affiche les élèves
-
+        $classes = $sectionRepo->findActiveClassDistinct();
         if(isset($_GET['section'])) {
             $section = $_GET['section'];
-            $classes = $elevesRepo->findClassDistinct();
             $eleves = $elevesRepo->findBy(['section'=>$section]);
         }
         else{
             // sinon on cherche les sections de l'école
             $section = null;
-            $classes = $elevesRepo->findClassDistinct();
             $eleves = null;
         }
 

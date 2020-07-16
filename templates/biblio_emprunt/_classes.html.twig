@@ -1,8 +1,8 @@
 <div class="col-12 text-center">
     <h3>Choisis ta classe :</h3>
     {% for classe in classes %}
-        <a href="{{ path('biblio_emprunt', {'section':classe.section}) }}"
-           alt="{{ classe.section }}"
-           class="classe-button">{{ classe.section }}</a>
+        <a href="{{ path('biblio_emprunt', {'section':classe.name}) }}"
+           alt="{{ classe.name }}"
+           class="classe-button">{{ classe.name }}</a>
     {% endfor %}
 </div>
