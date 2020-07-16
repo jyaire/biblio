@@ -49,22 +49,22 @@ class BiblioUserRepository extends ServiceEntityRepository implements PasswordUp
         return $builder->getQuery()->getResult();
     }
 
-    // /**
-    //  * @return BiblioUser[] Returns an array of BiblioUser objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    // methode pour trouver tous les utilisateurs, sauf les adultes et les anciens élèves
+     /**
+      * @return BiblioUser[] Returns an array of BiblioUser objects
+      */
+    public function findAllButAdultsButLeft()
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('u')
+            ->where('u.section != :val1')
+            ->andWhere('u.section != :val2')
+            ->setParameter('val1', 'adulte')
+            ->setParameter('val2', 'sorti')
+            ->orderBy('u.section', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?BiblioUser

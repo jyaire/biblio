@@ -19,7 +19,7 @@ class BiblioUserController extends AbstractController
     public function index(BiblioUserRepository $biblioUserRepository): Response
     {
         return $this->render('biblio_user/index.html.twig', [
-            'biblio_users' => $biblioUserRepository->findAll(),
+            'biblio_users' => $biblioUserRepository->findAllButAdultsButLeft(),
         ]);
     }
 
