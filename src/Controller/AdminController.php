@@ -214,7 +214,7 @@ class AdminController extends AbstractController
             $this->addFlash('success', $message);
         }
 
-        $eleves = $biblioUserRepository->findBy([], ['nom' => 'ASC']);
+        $eleves = $biblioUserRepository->findAllButAdultsButLeftByName();
 
         return $this->render('admin/caution.html.twig', [
             'biblio_users' => $eleves,

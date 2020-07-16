@@ -42,14 +42,18 @@ class BiblioUserRepository extends ServiceEntityRepository implements PasswordUp
      public function findClassDistinct(){
         $builder = $this->getEntityManager()->createQueryBuilder();
         $builder
-            ->select('s.section')
-            ->from($this->getClassName(), 's')
+            ->select('u.section')
+            ->where('u.section != :val1')
+            ->andWhere('u.section != :val2')
+            ->setParameter('val1', 'adulte')
+            ->setParameter('val2', 'sorti')
+            ->from($this->getClassName(), 'u')
             ->distinct(true);
 
         return $builder->getQuery()->getResult();
     }
 
-    // methode pour trouver tous les utilisateurs, sauf les adultes et les anciens élèves
+    // methode pour trouver tous les utilisateurs, sauf les adultes et les anciens élèves trié par classe
      /**
       * @return BiblioUser[] Returns an array of BiblioUser objects
       */
@@ -64,6 +68,23 @@ class BiblioUserRepository extends ServiceEntityRepository implements PasswordUp
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    // methode pour trouver tous les utilisateurs, sauf les adultes et les anciens élèves trié par nom
+    /**
+     * @return BiblioUser[] Returns an array of BiblioUser objects
+     */
+    public function findAllButAdultsButLeftByName()
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.section != :val1')
+            ->andWhere('u.section != :val2')
+            ->setParameter('val1', 'adulte')
+            ->setParameter('val2', 'sorti')
+            ->orderBy('u.nom', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
     /*

@@ -1,10 +1,8 @@
 <div class="col-12 text-center">
     <h3>Choisis ta classe :</h3>
     {% for classe in classes %}
-        {% if classe.section != "adulte" %}
-            <a href="{{ path('biblio_emprunt', {'section':classe.section}) }}"
-               alt="{{ classe.section }}"
-               class="classe-button">{{ classe.section }}</a>
-        {% endif %}
+        <a href="{{ path('biblio_emprunt', {'section':classe.section}) }}"
+           alt="{{ classe.section }}"
+           class="classe-button">{{ classe.section }}</a>
     {% endfor %}
 </div>
