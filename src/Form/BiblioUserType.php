@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\BiblioSection;
 use App\Entity\BiblioUser;
+use App\Repository\BiblioSectionRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
