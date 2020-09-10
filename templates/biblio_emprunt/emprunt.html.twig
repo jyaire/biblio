@@ -18,17 +18,32 @@
                 {% if eleve.isCaution == 1 and eleve.emprunts < limit %}
                     {% set class = "ok-button" %}
                     <p><a href="{{ path('biblio_emprunt', {'user':eleve.id}) }}"
-                       alt="{{ eleve.prenom }} {{ eleve.nom  }}"
-                       class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</a></p>
+                       class="{{ class }}">{{ eleve.prenom }}
+                            {% if app.user %}
+                                {{ eleve.nom }}
+                            {% else %}
+                                {{ eleve.nom |slice(0, 1)}}.
+                            {% endif %}
+                        </a></p>
                 {% else %}
                     {% if eleve.isCaution == 0 %}
                         {% set class = "nope-button" %}
-                        <p><span alt="{{ eleve.prenom }} {{ eleve.nom }}"
-                                 class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</span></p>
+                        <p><span class="{{ class }}">{{ eleve.prenom }}
+                            {% if app.user %}
+                                {{ eleve.nom }}
+                            {% else %}
+                                {{ eleve.nom |slice(0, 1)}}.
+                            {% endif %}
+                        </span></p>
                     {% else %}
                         {% set class = "wait-button" %}
-                        <p><span alt="{{ eleve.prenom }} {{ eleve.nom }}"
-                           class="{{ class }}">{{ eleve.prenom }} {{ eleve.nom }}</span><br>
+                        <p><span class="{{ class }}">{{ eleve.prenom }}
+                                {% if app.user %}
+                                    {{ eleve.nom }}
+                                {% else %}
+                                    {{ eleve.nom |slice(0, 1)}}.
+                                {% endif %}
+                            </span><br>
                             possède
                             {% for emprunt in eleve.biblioEmprunts %}
                                 {% if emprunt.isEmprunt == 1 %}
