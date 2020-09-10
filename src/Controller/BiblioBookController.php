@@ -16,6 +16,7 @@ class BiblioBookController extends AbstractController
 {
     /**
      * @Route("/admin/book/", name="biblio_book_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      * @param BiblioBookRepository $biblioBookRepository
      * @return Response
      */
@@ -28,6 +29,7 @@ class BiblioBookController extends AbstractController
 
     /**
      * @Route("/admin/book/new", name="biblio_book_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @return Response
      */

@@ -8,6 +8,7 @@ use App\Form\ImportType;
 use App\Repository\BiblioUserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ class AdminController extends AbstractController
 {
     /**
      * @Route("admin/", name="admin_index")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(): Response
     {

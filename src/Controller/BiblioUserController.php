@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\BiblioUser;
 use App\Form\BiblioUserType;
 use App\Repository\BiblioUserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ class BiblioUserController extends AbstractController
 {
     /**
      * @Route("/admin/user/", name="biblio_user_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(BiblioUserRepository $biblioUserRepository): Response
     {
@@ -25,6 +27,7 @@ class BiblioUserController extends AbstractController
 
     /**
      * @Route("/admin/user/new", name="biblio_user_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return Response
@@ -61,6 +64,7 @@ class BiblioUserController extends AbstractController
 
     /**
      * @Route("/biblio/user/{id}", name="biblio_user_show", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      * @param BiblioUser $biblioUser
      * @return Response
      */
@@ -73,6 +77,7 @@ class BiblioUserController extends AbstractController
 
     /**
      * @Route("/biblio/user/{biblioUser}/edit", name="biblio_user_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param BiblioUser $biblioUser
      * @return Response
@@ -96,6 +101,7 @@ class BiblioUserController extends AbstractController
 
     /**
      * @Route("/biblio/user/{id}", name="biblio_user_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param BiblioUser $biblioUser
      * @return Response
