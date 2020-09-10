@@ -18,6 +18,7 @@ class BiblioUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $section = $options['section'];
         $builder
             ->add('nom', TextType::class, [
                 'attr' => ['class' => 'form-control'],
@@ -44,7 +45,11 @@ class BiblioUserType extends AbstractType
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Sexe',
                 ])
-            ->add('section', TextType::class, [
+            ->add('section', EntityType::class, [
+                'class' => BiblioSection::class,
+                'choice_label' => 'name',
+                'mapped' => false,
+                'data' => $section,
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Section',
             ])
@@ -62,7 +67,9 @@ class BiblioUserType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver
+            ->setRequired(['section'])
+            ->setDefaults([
             'data_class' => BiblioUser::class,
         ]);
     }

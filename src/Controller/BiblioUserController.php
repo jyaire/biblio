@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\BiblioUser;
 use App\Form\BiblioUserType;
+use App\Repository\BiblioSectionRepository;
 use App\Repository\BiblioUserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +36,8 @@ class BiblioUserController extends AbstractController
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $biblioUser = new BiblioUser();
-        $form = $this->createForm(BiblioUserType::class, $biblioUser);
+        $section = null;
+        $form = $this->createForm(BiblioUserType::class, $biblioUser, ['section' => $section]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -80,11 +82,13 @@ class BiblioUserController extends AbstractController
      * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param BiblioUser $biblioUser
+     * @param BiblioSectionRepository $br
      * @return Response
      */
-    public function edit(Request $request, BiblioUser $biblioUser): Response
+    public function edit(Request $request, BiblioUser $biblioUser, BiblioSectionRepository $br): Response
     {
-        $form = $this->createForm(BiblioUserType::class, $biblioUser);
+        $section = $br->findOneBy(['name'=>$biblioUser->getSection()]);
+        $form = $this->createForm(BiblioUserType::class, $biblioUser, ['section' => $section]);
         $form->remove('password');
         $form->handleRequest($request);
 
