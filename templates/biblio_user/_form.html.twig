@@ -55,5 +55,15 @@
             {{ form_widget(form.isCaution) }}
         </div>
     </div>
+    {% if modif is not defined %}
+        <div class="row p-1 align-items-center">
+            <div class="col-4 text-right font-weight-bold">
+                {{ form_label(form.password) }}
+            </div>
+            <div class="col-8">
+                {{ form_widget(form.password) }}
+            </div>
+        </div>
+    {% endif %}
     <button class="primary-button">{{ button_label|default('Ajouter') }}</button>
 {{ form_end(form) }}
