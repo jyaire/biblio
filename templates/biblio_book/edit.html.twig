@@ -3,9 +3,10 @@
 {% block title %}Modifier un livre{% endblock %}
 
 {% block body %}
-    <h1>Modifier </h1>
-
-    {{ include('biblio_book/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    <h3>Modifier {{ biblio_book.titre }}</h3>
+    <div class="form-group">
+        {{ include('biblio_book/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
 
     <a href="{{ path('biblio_book_index') }}">Tous les livres</a>
 

@@ -1,14 +1,44 @@
 {{ form_start(form) }}
-Titre du livre
-{{ form_widget(form.titre, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Titre du livre (obligatoire)'}}) }}
-Auteur
-{{ form_widget(form.auteur, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Auteur'}}) }}
-Editeur
-{{ form_widget(form.editeur, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Editeur'}}) }}
-Côte Dewey
-{{ form_widget(form.dewey, {'attr': {'class': 'form-control mb-3', 'placeholder': 'De 100 à 900'}}) }}
-Prix
-{{ form_widget(form.prix, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Chiffres uniquement'}}) }}
+<div class="row p-1 align-items-center">
+    <div class="col-4 text-right font-weight-bold">
+        {{ form_label(form.titre) }}
+    </div>
+    <div class="col-8">
+        {{ form_widget(form.titre) }}
+    </div>
+</div>
+<div class="row p-1 align-items-center">
+    <div class="col-4 text-right font-weight-bold">
+        {{ form_label(form.auteur) }}
+    </div>
+    <div class="col-8">
+        {{ form_widget(form.auteur) }}
+    </div>
+</div>
+<div class="row p-1 align-items-center">
+    <div class="col-4 text-right font-weight-bold">
+        {{ form_label(form.editeur) }}
+    </div>
+    <div class="col-8">
+        {{ form_widget(form.editeur) }}
+    </div>
+</div>
+<div class="row p-1 align-items-center">
+    <div class="col-4 text-right font-weight-bold">
+        {{ form_label(form.dewey) }}
+    </div>
+    <div class="col-8">
+        {{ form_widget(form.dewey) }}
+    </div>
+</div>
+<div class="row p-1 align-items-center">
+    <div class="col-4 text-right font-weight-bold">
+        {{ form_label(form.prix) }}
+    </div>
+    <div class="col-8">
+        {{ form_widget(form.prix) }}
+    </div>
+</div>
 
     <button class="primary-button">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

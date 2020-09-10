@@ -64,6 +64,8 @@ class BiblioBookController extends AbstractController
 
     /**
      * @Route("/biblio/book/{id}", name="biblio_book_show", methods={"GET"})
+     * @param BiblioBook $biblioBook
+     * @return Response
      */
     public function show(BiblioBook $biblioBook): Response
     {
