@@ -72,7 +72,7 @@ class BiblioUserController extends AbstractController
     }
 
     /**
-     * @Route("/biblio/user/{id}/edit", name="biblio_user_edit", methods={"GET","POST"})
+     * @Route("/biblio/user/{biblioUser}/edit", name="biblio_user_edit", methods={"GET","POST"})
      * @param Request $request
      * @param BiblioUser $biblioUser
      * @return Response

@@ -6,6 +6,10 @@
     <h1>Liste des élèves</h1>
     <p><a href="{{ path('biblio_user_caution') }}" title="Chèques de caution">
             Gérer les cautions
+        </a> - <a href="/emprunt?section=adulte" title="Chèques de caution">
+            Anciens élèves
+        </a> - <a href="/emprunt?section=adulte" title="Chèques de caution">
+            Adultes
         </a></p>
     <ul class="text-left">
         {% for biblio_user in biblio_users %}
@@ -22,7 +26,7 @@
                     {% else %}
                         <span class="text-danger font-weight-bold">non</span>
                     {% endif %} -
-                    <a href="{{ path('biblio_user_edit', {'id': biblio_user.id}) }}">Modifier</a> -
+                    <a href="{{ path('biblio_user_edit', {'biblioUser': biblio_user.id}) }}">Modifier</a> -
                     <a href="{{ path('biblio_user_sortie', {'eleve': biblio_user.id}) }}">Retirer de l'école</a>
                 </p>
                 <hr>
