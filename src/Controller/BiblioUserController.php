@@ -85,6 +85,7 @@ class BiblioUserController extends AbstractController
     public function edit(Request $request, BiblioUser $biblioUser): Response
     {
         $form = $this->createForm(BiblioUserType::class, $biblioUser);
+        $form->remove('password');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

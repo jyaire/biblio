@@ -1,4 +1,59 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <div class="row p-1 align-items-center">
+        <div class="col-4 text-right font-weight-bold">
+            {{ form_label(form.nom) }}
+        </div>
+        <div class="col-8">
+            {{ form_widget(form.nom) }}
+        </div>
+    </div>
+    <div class="row p-1 align-items-center">
+        <div class="col-4 text-right font-weight-bold">
+            {{ form_label(form.prenom) }}
+        </div>
+        <div class="col-8">
+            {{ form_widget(form.prenom) }}
+        </div>
+    </div>
+    <div class="row p-1 align-items-center">
+        <div class="col-4 text-right font-weight-bold">
+            {{ form_label(form.dateNaissance) }}
+        </div>
+        <div class="col-8">
+            {{ form_widget(form.dateNaissance) }}
+        </div>
+    </div>
+    <div class="row p-1 align-items-center">
+        <div class="col-4 text-right font-weight-bold">
+            {{ form_label(form.sexe) }}
+        </div>
+        <div class="col-8">
+            {{ form_widget(form.sexe) }}
+        </div>
+    </div>
+    <div class="row p-1 align-items-center">
+        <div class="col-4 text-right font-weight-bold">
+            {{ form_label(form.ine) }}
+        </div>
+        <div class="col-8">
+            {{ form_widget(form.ine) }}
+        </div>
+    </div>
+    <div class="row p-1 align-items-center">
+        <div class="col-4 text-right font-weight-bold">
+            {{ form_label(form.section) }}
+        </div>
+        <div class="col-8">
+            {{ form_widget(form.section) }}
+        </div>
+    </div>
+    <div class="row p-1 align-items-center">
+        <div class="col-4 text-right font-weight-bold">
+            {{ form_label(form.isCaution) }}
+        </div>
+        <div class="col-2 col-xl-1">
+            {{ form_widget(form.isCaution) }}
+        </div>
+    </div>
     <button class="primary-button">{{ button_label|default('Ajouter') }}</button>
 {{ form_end(form) }}

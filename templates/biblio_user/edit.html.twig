@@ -3,10 +3,10 @@
 {% block title %}Modifier un utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Modifier les infos d'un élève</h1>
-
-    {{ include('biblio_user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
-
+    <h3>Modifier les infos de {{ biblio_user.prenom }} {{ biblio_user.nom }}</h3>
+    <div class="form-group">
+        {{ include('biblio_user/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
     <a href="{{ path('biblio_user_index') }}">Tous les élèves</a>
 
 {% endblock %}
