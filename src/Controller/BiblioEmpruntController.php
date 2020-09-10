@@ -89,7 +89,8 @@ class BiblioEmpruntController extends AbstractController
             $entityManager->persist($biblioEmprunt);
             $entityManager->flush();
 
-            $this->addFlash('success', "Tu peux garder ce livre 15 jours !");
+            $message = 'Le livre n°' . $livre->getId() . ' "' . $livre->getTitre() . '" est emprunté par '. $user->getPrenom();
+            $this->addFlash('success', $message);
             return $this->redirectToRoute('home_index');
         }
 
@@ -167,8 +168,8 @@ class BiblioEmpruntController extends AbstractController
             $entityManager->persist($biblioEmprunt);
             $entityManager->flush();
 
-            $prenom = $user->getPrenom();
-            $this->addFlash('success', "$prenom, merci de ranger le livre à sa place !");
+            $message = $user->getPrenom() . ' a rendu le livre n° ' . $livre->getId() . ' "' . $livre->getTitre() . '", merci de le ranger à sa place !';
+            $this->addFlash('success', $message);
             return $this->redirectToRoute('home_index');
         }
 
