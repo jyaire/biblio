@@ -18,7 +18,7 @@
             <span class="text-danger font-weight-bold">non</span>
         {% endif %}
         <br>
-        <a href="{{ path('biblio_user_edit', {'id': biblio_user.id}) }}">Modifier cet élève</a>
+        <a href="{{ path('biblio_user_edit', {'biblioUser': biblio_user.id}) }}">Modifier cet élève</a>
     </div>
     <div class="col-12 text-left mt-4">
         <h3>Historique des emprunts</h3>
