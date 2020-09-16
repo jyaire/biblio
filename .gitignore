@@ -20,7 +20,7 @@
 ###< jetbrain/phpstorm ###
 
 ###> User files ###
-/public/uploads/
+/public/uploads/*
 ###< User files ###
 
 ###> symfony/webpack-encore-bundle ###
