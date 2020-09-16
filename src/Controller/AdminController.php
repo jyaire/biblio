@@ -8,6 +8,7 @@ use App\Form\ImportType;
 use App\Repository\BiblioUserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,7 +35,7 @@ class AdminController extends AbstractController
      * @param BiblioUserRepository $eleves
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return RedirectResponse|Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function importUsers(
         Request $request,
@@ -106,7 +107,7 @@ class AdminController extends AbstractController
                     else {
                         // and add pupils
                         $eleve = new BiblioUser();
-                        $dateNaissance = DateTime::createFromFormat("d/m/Y", $data[3]);
+                        $dateNaissance = DateTime::createFromFormat("Y-m-d", $data[3]);
                         $username = $dateNaissance->format('Y').' '.$data[0].' '.$data[2];
                         $eleve
                             ->setUsername($username)
