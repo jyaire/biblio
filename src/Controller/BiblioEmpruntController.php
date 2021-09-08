@@ -100,7 +100,7 @@ class BiblioEmpruntController extends AbstractController
         $classes = $sectionRepo->findActiveClassDistinct();
         if(isset($_GET['section'])) {
             $section = $_GET['section'];
-            $eleves = $elevesRepo->findBy(['section'=>$section]);
+            $eleves = $elevesRepo->findBy(['section'=>$section], ['nom' => 'ASC']);
         }
         else{
             // sinon on cherche les sections de l'école
