@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\BiblioBook;
 use App\Form\BiblioBookType;
+use App\Form\BiblioBookSearchType;
 use App\Repository\BiblioBookRepository;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -58,6 +59,29 @@ class BiblioBookController extends AbstractController
 
         return $this->render('biblio_book/new.html.twig', [
             'biblio_book' => $biblioBook,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/book/search", name="biblio_book_search", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function search(Request $request): Response
+    {
+        $biblioBook = new BiblioBook();
+        $form = $this->createForm(BiblioBookSearchType::class, $biblioBook);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            // à completer search
+
+            return $this->redirectToRoute('biblio_book_search');
+        }
+
+        return $this->render('biblio_book/search.html.twig', [
             'form' => $form->createView(),
         ]);
     }

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trouver un livre{% endblock %}
+
+{% block body %}
+<div class="form-group row justify-content-center">
+    <div class="col-8">
+        <h1 class="text-center">Trouver un livre</h1>
+        {{ form_start(form) }}
+        <div class="row p-1 align-items-center">
+            <div class="col-4 text-right font-weight-bold">
+                {{ form_label(form.id) }}
+            </div>
+            <div class="col-8">
+                {{ form_widget(form.id) }}
+            </div>
+        </div>
+            <button class="primary-button">{{ button_label|default('Chercher') }}</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+    <div class="form-group row justify-content-center">
+        <div class="col-8">
+            <p><a href="{{ path('biblio_book_index') }}">Tous les livres</a></p>
+        </div>
+    </div>
+{% endblock %}
