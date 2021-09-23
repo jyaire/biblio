@@ -64,21 +64,23 @@ class BiblioBookController extends AbstractController
     }
 
     /**
-     * @Route("/admin/book/search", name="biblio_book_search", methods={"GET","POST"})
+     * @Route("/biblio/book/search", name="biblio_book_search", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
-    public function search(Request $request): Response
+    public function search(Request $request, BiblioBookRepository $biblioBookRepository): Response
     {
         $biblioBook = new BiblioBook();
-        $form = $this->createForm(BiblioBookSearchType::class, $biblioBook);
+        $form = $this->createForm(BiblioBookSearchType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            // à completer search
-
-            return $this->redirectToRoute('biblio_book_search');
+            $biblioBook = $biblioBookRepository->findOneBy(['id' => $form->get('id')->getData()]);
+            $idBook = $biblioBook->getId();
+            
+            return $this->redirectToRoute('biblio_book_show', [
+                'id' => $idBook,
+            ]);
         }
 
         return $this->render('biblio_book/search.html.twig', [

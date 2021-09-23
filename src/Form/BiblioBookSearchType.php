@@ -17,6 +17,7 @@ class BiblioBookSearchType extends AbstractType
                 'attr' => ['class' => 'form-control', 'placeholder' => 'Chiffres uniquement'],
                 'label' => 'Numéro du livre',
                 'required' => true,
+                'mapped' => false,
             ])
         ;
     }
