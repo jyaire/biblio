@@ -75,8 +75,19 @@ class BiblioBookController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $biblioBook = $biblioBookRepository->findOneBy(['id' => $form->get('id')->getData()]);
-            $idBook = $biblioBook->getId();
+            $idBook = $form->get('id')->getData();
+            $biblioBook = $biblioBookRepository->findOneBy(['id' => $idBook]);
+
+            if ($biblioBook == null) {
+                $message = "Le livre n°$idBook n'est pas répertorié, vérifiez le numéro";
+                $this->addFlash('danger', $message);
+
+                return $this->render('biblio_book/search.html.twig', [
+                    'form' => $form->createView(),
+                ]);
+            }
+
+            
             
             return $this->redirectToRoute('biblio_book_show', [
                 'id' => $idBook,
