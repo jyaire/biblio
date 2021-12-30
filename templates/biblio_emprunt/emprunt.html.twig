@@ -24,7 +24,14 @@
                             {% else %}
                                 {{ eleve.nom |slice(0, 1)}}.
                             {% endif %}
-                        </a></p>
+                        </a><br>
+                            {% for emprunt in eleve.biblioEmprunts %}
+                                possède
+                                {% if emprunt.isEmprunt == 1 %}
+                                "{{ emprunt.livre.titre }}"
+                                (<a href="{{ path('biblio_book_show', {'id': emprunt.livre.id }) }}">n°{{ emprunt.livre.id }}</a>) 
+                                {% endif %}
+                            {% endfor %}</p>
                 {% else %}
                     {% if eleve.isCaution == 0 %}
                         {% set class = "nope-button" %}
@@ -44,12 +51,12 @@
                                     {{ eleve.nom |slice(0, 1)}}.
                                 {% endif %}
                             </span><br>
-                            possède
                             {% for emprunt in eleve.biblioEmprunts %}
+                            possède
                                 {% if emprunt.isEmprunt == 1 %}
                                 "{{ emprunt.livre.titre }}"
-                                (<a href="{{ path('biblio_book_show', {'id': emprunt.livre.id }) }}">n°{{ emprunt.livre.id }}</a>)
-                                {% endif %}
+                                (<a href="{{ path('biblio_book_show', {'id': emprunt.livre.id }) }}">n°{{ emprunt.livre.id }}</a>) 
+                                {% endif %}</br>
                             {% endfor %}</p>
                     {% endif %}
                 {% endif %}
