@@ -110,7 +110,7 @@ class BiblioEmpruntController extends AbstractController
 
         // Nombre maximal de livres empruntables
         // TODO à mettre dans une option de l'admin
-        $limit = 1;
+        $limit = 2;
 
         return $this->render('biblio_emprunt/emprunt.html.twig', [
             'eleves' => $eleves,
